@@ -1,0 +1,69 @@
+fos_user:
+    db_driver: orm
+    firewall_name: main
+    user_class: Application\Sonata\UserBundle\Entity\User
+    group:
+        group_class:   Application\Sonata\UserBundle\Entity\Group
+        group_manager: sonata.user.orm.group_manager  # If you're using doctrine orm (use sonata.user.mongodb.group_manager for mongodb)
+    service:
+        user_manager: sonata.user.orm.user_manager
+# FOSUser custom form types
+#    registration:
+#        form:
+#            type: AppBundle\Form\RegistrationTypea.user.orm.user_manager
+
+sonata_user:
+    security_acl: true
+    manager_type: orm # can be orm or mongodb
+
+sonata_block:
+    default_contexts: [cms]
+    blocks:
+        sonata.user.block.menu:    # used to display the menu in profile pages
+        sonata.user.block.account: # used to display menu option (login option)
+        sonata.block.service.text: # used to if you plan to use Sonata user routes
+        sonata.admin.block.admin_list:
+            contexts:   [admin]
+        sonata.admin.block.search_result:
+            contexts:   [admin]
+        sonata.block.service.text: ~
+        sonata.block.service.rss: ~
+
+sonata_admin:
+    title:  Content Management
+#    title_logo: bundles\app\images\logo_only.png
+    templates:
+            search:              SonataAdminBundle:Core:search.html.twig
+            search_result_block: SonataAdminBundle:Block:block_search_result.html.twig
+#    dashboard:
+#            groups:
+#                admin.group.product:
+#                    label: admin.group.product
+#                    label_catalogue: SonataAdminBundle
+#                    items:
+#                        - sonata.admin.product
+#                        - sonata.admin.category
+##                admin.group.others:
+##                    items: ~
+##                    item_adds:
+##                        - sonata.admin.page
+##                    roles: [ ROLE_ONE, ROLE_TWO ]
+##                admin.group.misc: ~
+#            blocks:
+#                -
+#                    position: left
+#                    type: sonata.admin.block.admin_list
+#                -
+#                    position: right
+#                    type: sonata.block.service.text
+#                    settings:
+#                        content: >
+#                            <h2>Note to Content Managers</h2>
+#                            <p>This CMS extends SonataAdminBundle</p>
+#                            <p>You can learn more from below: </p>
+#                -
+#                    position: right
+#                    type: sonata.block.service.rss
+#                    settings:
+#                        title: Sonata Project's Feeds
+#                        url: http://sonata-project.org/blog/archive.rss
