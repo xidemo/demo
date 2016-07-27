@@ -1,0 +1,15 @@
+AppBundle\Entity\Category:
+    category{101..201}:
+        title: <word()>
+
+AppBundle\Entity\Product:
+    product{1..10}:
+        name: <name()>
+        slug: <words(3, true)>
+        category: '@category101'
+        price: <numberBetween(10, 200)>
+        description: <paragraph(3, true)>
+        image: <imageUrl>
+        createdAt: <dateTimeThisYear()>
+        stock: <numberBetween(0, 99)>
+
