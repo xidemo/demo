@@ -1,12 +1,12 @@
 AppBundle\Entity\Category:
-    category_{101..201}:
+    category_{1..20}:
         title: <company()>
 
 AppBundle\Entity\Product:
-    product_{1..10}:
+    product_{1..100}:
         name: <sentence()>
         category: '@category_*'
-        price: <numberBetween(10, 100)>
+        price: <numberBetween(10, 1000)>
         description: <paragraph()>
         image: <imageUrl()>
         createdAt: <dateTimeThisYear()>
