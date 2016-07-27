@@ -20,8 +20,8 @@
         <tbody>
         {% for product in products %}
             <tr>
-                <td><a href="{{ path('product_show', { 'id': product.id }) }}">{{ product.id }}</a></td>
-                <td>{{ product.name }}</td>
+                <td>{{ product.Id }}</td>
+                <td><a href="{{ path('product_show', { 'slug': product.slug}) }}">{{ product.name }}</a></td>
                 <td>{{ product.slug }}</td>
                 <td>{{ product.price }}</td>
                 <td>{{ product.description }}</td>
@@ -31,10 +31,10 @@
                 <td>
                     <ul>
                         <li>
-                            <a href="{{ path('product_show', { 'id': product.id }) }}">show</a>
+                            <a href="{{ path('product_show', { 'slug': product.slug }) }}">show</a>
                         </li>
                         <li>
-                            <a href="{{ path('product_edit', { 'id': product.id }) }}">edit</a>
+                            <a href="{{ path('product_edit', { 'slug': product.slug }) }}">edit</a>
                         </li>
                     </ul>
                 </td>

@@ -62,7 +62,7 @@ class ProductController extends Controller
     /**
      * Finds and displays a Product entity.
      *
-     * @Route("/{id}", name="product_show")
+     * @Route("/{slug}", name="product_show")
      * @Method("GET")
      */
     public function showAction(Product $product)
@@ -78,7 +78,7 @@ class ProductController extends Controller
     /**
      * Displays a form to edit an existing Product entity.
      *
-     * @Route("/{id}/edit", name="product_edit")
+     * @Route("/{slug}/edit", name="product_edit")
      * @Method({"GET", "POST"})
      */
     public function editAction(Request $request, Product $product)
@@ -92,7 +92,7 @@ class ProductController extends Controller
             $em->persist($product);
             $em->flush();
 
-            return $this->redirectToRoute('product_edit', array('id' => $product->getId()));
+            return $this->redirectToRoute('product_edit', array('slug' => $product->getSlug()));
         }
 
         return $this->render('product/edit.html.twig', array(
@@ -105,7 +105,7 @@ class ProductController extends Controller
     /**
      * Deletes a Product entity.
      *
-     * @Route("/{id}", name="product_delete")
+     * @Route("/{slug}", name="product_delete")
      * @Method("DELETE")
      */
     public function deleteAction(Request $request, Product $product)
@@ -119,7 +119,7 @@ class ProductController extends Controller
             $em->flush();
         }
 
-        return $this->redirectToRoute('product_index');
+        return $this->redirectToRoute('product_list');
     }
 
     /**
@@ -132,7 +132,7 @@ class ProductController extends Controller
     private function createDeleteForm(Product $product)
     {
         return $this->createFormBuilder()
-            ->setAction($this->generateUrl('product_delete', array('id' => $product->getId())))
+            ->setAction($this->generateUrl('product_delete', array('slug' => $product->getSlug())))
             ->setMethod('DELETE')
             ->getForm()
         ;
