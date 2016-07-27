@@ -1,9 +1,11 @@
 <?php
 namespace AppBundle\Entity;
+
 use Doctrine\ORM\Event\LifecycleEventArgs;
 use Doctrine\ORM\Event\PreUpdateEventArgs;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+
 /**
  * @ORM\Table(name="app_product")
  * @ORM\Entity()
@@ -35,7 +37,8 @@ class Product
      */
     protected $slug;
     /**
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Category")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Category", inversedBy="products")
+     * @ORM\JoinColumn(nullable=false, onDelete="CASCADE")
      */
     protected $category;
     /**
@@ -58,6 +61,7 @@ class Product
      * @ORM\Column(type="integer")
      */
     protected $stock;
+
     /**
      * @ORM\PrePersist
      */
@@ -65,6 +69,7 @@ class Product
     {
         $this->createdAt = new \DateTime();
     }
+
     /**
      * Create the slug automatically
      *
@@ -73,20 +78,23 @@ class Product
     public function setSlugValue()
     {
         if (!isset($this->slug)) {
-            $this->slug = str_replace(' ', '-', $this->name);
+            $this->slug =  $this->slugify($this->name);
         }
     }
+
     /**
      * Update the slug automatically
      *
      * @ORM\PreUpdate
      * @param PreUpdateEventArgs $event
      */
-    public function updateSlugValue(PreUpdateEventArgs $event){
-        if ($event->hasChangedField('name')){
-            $this->slug = str_replace(' ', '-', $this->name);
+    public function updateSlugValue(PreUpdateEventArgs $event)
+    {
+        if ($event->hasChangedField('name')) {
+            $this->slug = $this->slugify($this->name);
         }
     }
+
     /**
      * Get id
      *
@@ -96,6 +104,7 @@ class Product
     {
         return $this->id;
     }
+
     /**
      * Set name
      *
@@ -108,6 +117,7 @@ class Product
         $this->name = $name;
         return $this;
     }
+
     /**
      * Get name
      *
@@ -117,6 +127,7 @@ class Product
     {
         return $this->name;
     }
+
     /**
      * Set slug
      *
@@ -129,6 +140,7 @@ class Product
         $this->slug = $slug;
         return $this;
     }
+
     /**
      * Get slug
      *
@@ -138,6 +150,7 @@ class Product
     {
         return $this->slug;
     }
+
     /**
      * Set price
      *
@@ -150,6 +163,7 @@ class Product
         $this->price = $price;
         return $this;
     }
+
     /**
      * Get price
      *
@@ -159,6 +173,7 @@ class Product
     {
         return $this->price;
     }
+
     /**
      * Set description
      *
@@ -171,6 +186,7 @@ class Product
         $this->description = $description;
         return $this;
     }
+
     /**
      * Get description
      *
@@ -180,6 +196,7 @@ class Product
     {
         return $this->description;
     }
+
     /**
      * Set image
      *
@@ -192,6 +209,7 @@ class Product
         $this->image = $image;
         return $this;
     }
+
     /**
      * Get image
      *
@@ -201,6 +219,7 @@ class Product
     {
         return $this->image;
     }
+
     /**
      * Set createdAt
      *
@@ -213,6 +232,7 @@ class Product
         $this->createdAt = $createdAt;
         return $this;
     }
+
     /**
      * Get createdAt
      *
@@ -222,6 +242,7 @@ class Product
     {
         return $this->createdAt;
     }
+
     /**
      * Set stock
      *
@@ -234,6 +255,7 @@ class Product
         $this->stock = $stock;
         return $this;
     }
+
     /**
      * Get stock
      *
@@ -243,6 +265,7 @@ class Product
     {
         return $this->stock;
     }
+
     /**
      * Set category
      *
@@ -255,6 +278,7 @@ class Product
         $this->category = $category;
         return $this;
     }
+
     /**
      * Get category
      *
@@ -263,5 +287,27 @@ class Product
     public function getCategory()
     {
         return $this->category;
+    }
+
+    //TODO pull out to explicit doctrine entity listener
+    private function slugify($text)
+    {
+        // replace non letter or digits by -
+        $text = preg_replace('~[^\pL\d]+~u', '-', $text);
+        // transliterate
+        $text = iconv('utf-8', 'us-ascii//TRANSLIT', $text);
+        // remove unwanted characters
+        $text = preg_replace('~[^-\w]+~', '', $text);
+        // trim
+        $text = trim($text, '-');
+        // remove duplicate -
+        $text = preg_replace('~-+~', '-', $text);
+        // lowercase
+        $text = strtolower($text);
+        if (empty($text)) {
+            return 'n-a';
+        }
+
+        return $text;
     }
 }

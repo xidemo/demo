@@ -1,6 +1,9 @@
 <?php
 namespace AppBundle\Entity;
+
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+
 /**
  * @ORM\Table(name="app_category")
  * @ORM\Entity()
@@ -18,6 +21,17 @@ class Category
      */
     private $title;
     /**
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Product", mappedBy="category")
+     * @ORM\OrderBy({"createdAt"="DESC"})
+     */
+    private $products;
+
+    public function __construct()
+    {
+        $this->products = new ArrayCollection();
+    }
+
+    /**
      * Get id
      *
      * @return integer
@@ -26,6 +40,7 @@ class Category
     {
         return $this->id;
     }
+
     /**
      * Set title
      *
@@ -38,6 +53,7 @@ class Category
         $this->title = $title;
         return $this;
     }
+
     /**
      * Get title
      *
@@ -47,7 +63,17 @@ class Category
     {
         return $this->title;
     }
-    public function __toString(){
+
+    /**
+     * @return ArrayCollection|Product[]
+     */
+    public function getProducts()
+    {
+        return $this->products;
+    }
+
+    public function __toString()
+    {
         return $this->title;
     }
 }
