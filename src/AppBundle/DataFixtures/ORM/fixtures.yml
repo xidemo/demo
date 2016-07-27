@@ -1,6 +1,6 @@
 AppBundle\Entity\Category:
     category_{1..20}:
-        title: <company()>
+        name: <company()>
 
 AppBundle\Entity\Product:
     product_{1..100}:
