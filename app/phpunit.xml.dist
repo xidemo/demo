@@ -9,9 +9,10 @@
 >
     <php>
         <ini name="error_reporting" value="-1" />
-        <!--
-            <server name="KERNEL_DIR" value="/path/to/your/app/" />
-        -->
+        <env name="TEST_WEB_BASE_URL" value="http://localhost/symfony2_bp/web" />
+        <env name="TEST_API_BASE_URL" value="http://localhost/symfony2_bp/web" />
+        <!-- change to 'strict' to enable deprecation notices in phpunit bridge -->
+        <env name="SYMFONY_DEPRECATIONS_HELPER" value="weak" />
     </php>
 
     <testsuites>
