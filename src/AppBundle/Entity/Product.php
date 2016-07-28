@@ -9,8 +9,6 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * @ORM\Table(name="app_product")
  * @ORM\Entity()
- *
- * @ORM\HasLifecycleCallbacks()
  */
 class Product
 {
@@ -50,10 +48,6 @@ class Product
      */
     protected $description;
     /**
-     * @ORM\Column(type="string")
-     */
-    protected $image;
-    /**
      * @ORM\Column(type="datetime")
      */
     protected $createdAt;
@@ -61,39 +55,10 @@ class Product
      * @ORM\Column(type="integer")
      */
     protected $stock;
-
     /**
-     * @ORM\PrePersist
+     * @ORM\Column(type="string")
      */
-    public function setCreatedAtValue()
-    {
-        $this->createdAt = new \DateTime();
-    }
-
-    /**
-     * Create the slug automatically
-     *
-     * @ORM\PrePersist
-     */
-    public function setSlugValue()
-    {
-        if (!isset($this->slug)) {
-            $this->slug =  $this->slugify($this->name);
-        }
-    }
-
-    /**
-     * Update the slug automatically
-     *
-     * @ORM\PreUpdate
-     * @param PreUpdateEventArgs $event
-     */
-    public function updateSlugValue(PreUpdateEventArgs $event)
-    {
-        if ($event->hasChangedField('name')) {
-            $this->slug = $this->slugify($this->name);
-        }
-    }
+    protected $image;
 
     /**
      * Get id
@@ -152,6 +117,29 @@ class Product
     }
 
     /**
+     * Set category
+     *
+     * @param \AppBundle\Entity\Category $category
+     *
+     * @return Product
+     */
+    public function setCategory(Category $category = null)
+    {
+        $this->category = $category;
+        return $this;
+    }
+
+    /**
+     * Get category
+     *
+     * @return \AppBundle\Entity\Category
+     */
+    public function getCategory()
+    {
+        return $this->category;
+    }
+
+    /**
      * Set price
      *
      * @param string $price
@@ -195,29 +183,6 @@ class Product
     public function getDescription()
     {
         return $this->description;
-    }
-
-    /**
-     * Set image
-     *
-     * @param string $image
-     *
-     * @return Product
-     */
-    public function setImage($image)
-    {
-        $this->image = $image;
-        return $this;
-    }
-
-    /**
-     * Get image
-     *
-     * @return string
-     */
-    public function getImage()
-    {
-        return $this->image;
     }
 
     /**
@@ -266,48 +231,27 @@ class Product
         return $this->stock;
     }
 
+
     /**
-     * Set category
+     * Set image
      *
-     * @param \AppBundle\Entity\Category $category
+     * @param string $image
      *
      * @return Product
      */
-    public function setCategory(Category $category = null)
+    public function setImage($image)
     {
-        $this->category = $category;
+        $this->image = $image;
         return $this;
     }
 
     /**
-     * Get category
+     * Get image
      *
-     * @return \AppBundle\Entity\Category
+     * @return string
      */
-    public function getCategory()
+    public function getImage()
     {
-        return $this->category;
-    }
-
-    //TODO pull out to explicit doctrine entity listener
-    private function slugify($text)
-    {
-        // replace non letter or digits by -
-        $text = preg_replace('~[^\pL\d]+~u', '-', $text);
-        // transliterate
-        $text = iconv('utf-8', 'us-ascii//TRANSLIT', $text);
-        // remove unwanted characters
-        $text = preg_replace('~[^-\w]+~', '', $text);
-        // trim
-        $text = trim($text, '-');
-        // remove duplicate -
-        $text = preg_replace('~-+~', '-', $text);
-        // lowercase
-        $text = strtolower($text);
-        if (empty($text)) {
-            return 'n-a';
-        }
-
-        return $text;
+        return $this->image;
     }
 }

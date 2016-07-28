@@ -8,8 +8,6 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * @ORM\Table(name="app_category")
  * @ORM\Entity()
- *
- * @ORM\HasLifecycleCallbacks()
  */
 class Category
 {
@@ -98,52 +96,5 @@ class Category
     public function __toString()
     {
         return $this->name;
-    }
-
-    /**
-     * Create the slug automatically
-     *
-     * @ORM\PrePersist
-     */
-    public function setSlugValue()
-    {
-        if (!isset($this->slug)) {
-            $this->slug =  $this->slugify($this->name);
-        }
-    }
-
-    /**
-     * Update the slug automatically
-     *
-     * @ORM\PreUpdate
-     * @param PreUpdateEventArgs $event
-     */
-    public function updateSlugValue(PreUpdateEventArgs $event)
-    {
-        if ($event->hasChangedField('name')) {
-            $this->slug = $this->slugify($this->name);
-        }
-    }
-
-   //TODO pull out to explicit doctrine entity listener
-    private function slugify($text)
-    {
-        // replace non letter or digits by -
-        $text = preg_replace('~[^\pL\d]+~u', '-', $text);
-        // transliterate
-        $text = iconv('utf-8', 'us-ascii//TRANSLIT', $text);
-        // remove unwanted characters
-        $text = preg_replace('~[^-\w]+~', '', $text);
-        // trim
-        $text = trim($text, '-');
-        // remove duplicate -
-        $text = preg_replace('~-+~', '-', $text);
-        // lowercase
-        $text = strtolower($text);
-        if (empty($text)) {
-            return 'n-a';
-        }
-
-        return $text;
     }
 }
