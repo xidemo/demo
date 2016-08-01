@@ -3,13 +3,24 @@
 namespace AppBundle\Tests\Controller\Web;
 
 use AppBundle\Tests\BaseWebTestCase;
+use Symfony\Component\HttpKernel\Kernel;
 
 class ProductControllerTest extends BaseWebTestCase
 {
+    protected function setUp()
+    {
+        parent::setUp();
+
+        $this->loadFixtureFromFile();
+    }
+
     public function testListProductAction()
     {
-        $response = $this->client->request('GET', 'product/');
-        $this->assertEquals(200, $response->getStatusCode(), "Unexpected HTTP status code for GET /product/");
+        $url = parent::$baseUrl . 'product';
+
+        $crawler = $this->client->request('GET', $url);
+        $response = $this->client->getInternalResponse();
+        $this->assertEquals(200, $response->getStatus(), "Unexpected HTTP status code for GET product/");
     }
 
 //    public function testCompleteScenario()

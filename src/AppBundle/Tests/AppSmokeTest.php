@@ -9,8 +9,11 @@ class AppSmokeTest extends BaseWebTestCase
      */
     public function testAppSmoke($url)
     {
-        $response = $this->client->get($url);
-        $this->assertEquals(200, $response->getStatusCode());
+        $urlToTest = parent::$baseUrl . $url;
+
+        $crawler = $this->client->request('GET', $urlToTest);
+        $response = $this->client->getInternalResponse();
+        $this->assertEquals(200, $response->getStatus());
     }
 
     public function urlProvider()

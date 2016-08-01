@@ -9,10 +9,11 @@ class HomeControllerTest extends BaseWebTestCase
 {
     public function testIndex()
     {
-        $response = $this->client->get('');
+        $url = parent::$baseUrl . '/';
+        $crawler = $this->client->request('GET', $url);
+        $response = $this->client->getInternalResponse();
 
-        $this->assertEquals(200, $response->getStatusCode());
-        $crawler = new Crawler($response->getBody()->getContents());
+        $this->assertEquals(200, $response->getStatus(), "Unexpected HTTP status code for GET product/");
         $this->assertContains('Welcome to Symfony', $crawler->filter('#container h1')->text());
     }
 }
