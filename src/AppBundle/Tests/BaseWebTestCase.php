@@ -4,35 +4,39 @@ namespace AppBundle\Tests;
 
 use Doctrine\Common\DataFixtures\Purger\ORMPurger;
 use Doctrine\ORM\EntityManager;
-use GuzzleHttp\Client;
+use GuzzleHttp\Client as GuzzleClient;
+use Goutte\Client;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Middleware;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
-use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
+use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\Console\Helper\FormatterHelper;
 use Symfony\Component\Console\Output\ConsoleOutput;
 use Symfony\Component\DomCrawler\Crawler;
 
-class BaseWebTestCase extends KernelTestCase
+class BaseWebTestCase extends WebTestCase
 {
-    private static $staticClient;
-
+    /**
+     * @var
+     */
+    protected static $baseUrl;
+    /**
+     * @var GuzzleClient
+     */
+    protected static $GuzzleClient;
     /**
      * @var array
      */
     private static $history = array();
-
     /**
      * @var Client
      */
     protected $client;
-
     /**
      * @var ConsoleOutput
      */
     private $output;
-
     /**
      * @var FormatterHelper
      */
@@ -41,22 +45,11 @@ class BaseWebTestCase extends KernelTestCase
     public static function setUpBeforeClass()
     {
         $handler = HandlerStack::create();
-
         $handler->push(Middleware::history(self::$history));
-//        TODO: append app_test.php using Handlers and Middleware
-//        $handler->push(Middleware::mapRequest(function(RequestInterface $request) {
-//            $path = $request->getUri()->getPath();
-//            if (strpos($path, 'app_test.php/') !== 0) {
-//                $path = 'app_test.php/' . $path;
-//            }
-//            $uri = $request->getUri()->withPath($path);
-//
-//            return $request->withUri($uri);
-//        }));
 
-        $baseUrl = getenv('TEST_BASE_URL');
-        self::$staticClient = new Client([
-            'base_uri' => $baseUrl,
+        self::$baseUrl = getenv('TEST_BASE_URL');
+        self::$GuzzleClient = new GuzzleClient([
+            'base_uri' => self::$baseUrl,
             'http_errors' => false,
             'handler' => $handler
         ]);
@@ -66,7 +59,8 @@ class BaseWebTestCase extends KernelTestCase
 
     protected function setUp()
     {
-        $this->client = self::$staticClient;
+        $this->client = new Client();
+        $this->client->setClient(self::$GuzzleClient);
         // reset the history
         self::$history = array();
 
@@ -123,7 +117,7 @@ class BaseWebTestCase extends KernelTestCase
         foreach ($response->getHeaders() as $name => $values) {
             $this->printDebug(sprintf('%s: %s', $name, implode(', ', $values)));
         }
-        $body = (string) $response->getBody();
+        $body = (string)$response->getBody();
 
         $contentType = $response->getHeader('Content-Type');
         $contentType = $contentType[0];
@@ -178,7 +172,7 @@ class BaseWebTestCase extends KernelTestCase
 
                 $profilerUrl = $response->getHeader('X-Debug-Token-Link');
                 if ($profilerUrl) {
-                    $fullProfilerUrl = $response->getHeader('Host').$profilerUrl[0];
+                    $fullProfilerUrl = $response->getHeader('Host') . $profilerUrl[0];
                     $this->printDebug('');
                     $this->printDebug(sprintf(
                         'Profiler URL: <comment>%s</comment>',
@@ -273,7 +267,43 @@ class BaseWebTestCase extends KernelTestCase
      */
     protected function adjustUri($uri)
     {
-        return '/app_test.php'.$uri;
+        return '/app_test.php' . $uri;
     }
 
+    /**
+     * Load Alice/Faker fixture files
+     */
+    protected function loadFixtureFromFile()
+    {
+        $container = $this->getService('service_container');
+        $entityManager = $this->getEntityManager();
+        $kernel = static::$kernel;
+
+        $container
+            ->get('hautelook_alice.doctrine.executor.fixtures_executor')
+            ->execute(
+                $entityManager,
+                $container->get('hautelook_alice.doctrine.orm.loader_generator')->generate(
+                    $container->get('hautelook_alice.fixtures.loader'),
+                    $container->get('hautelook_alice.alice.fixtures.loader'),
+                    $kernel->getBundles(),
+                    'test'),
+                $container->get('hautelook_alice.doctrine.orm.fixtures_finder')->resolveFixtures(
+                    $kernel,
+                    $this->getFixtureFiles()),
+                false, //If true, data will not be purged
+                function ($message) {
+                }, //Can be used for logging, if needed
+                true); //If true, truncates instead of deleting
+    }
+
+    /**
+     * Default fixture files to load
+     */
+    private function getFixtureFiles()
+    {
+        return [
+            __DIR__ . '/../DataFixtures/ORM/fixtures.yml'
+        ];
+    }
 }
