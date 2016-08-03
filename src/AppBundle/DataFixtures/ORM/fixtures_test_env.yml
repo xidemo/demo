@@ -1,0 +1,14 @@
+AppBundle\Entity\Category:
+    acme_category:
+        name: acme_category
+
+AppBundle\Entity\Product:
+    acme_product:
+        name: acme_product
+        category: '@acme_category'
+        price: 100
+        description: 'acme makes everything'
+        image: 'acme.jpg'
+        createdAt: <dateTimeThisYear()>
+        stock: 10
+

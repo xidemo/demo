@@ -290,7 +290,7 @@ class BaseWebTestCase extends WebTestCase
                     'test'),
                 $container->get('hautelook_alice.doctrine.orm.fixtures_finder')->resolveFixtures(
                     $kernel,
-                    $this->getFixtureFiles()),
+                    $this->getTestEnvironmentFixtureFiles()),
                 false, //If true, data will not be purged
                 function ($message) {
                 }, //Can be used for logging, if needed
@@ -300,10 +300,10 @@ class BaseWebTestCase extends WebTestCase
     /**
      * Default fixture files to load
      */
-    private function getFixtureFiles()
+    private function getTestEnvironmentFixtureFiles()
     {
         return [
-            __DIR__ . '/../DataFixtures/ORM/fixtures.yml'
+            __DIR__ . '/../DataFixtures/ORM/fixtures_test_env.yml'
         ];
     }
 }
