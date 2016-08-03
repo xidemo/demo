@@ -50,7 +50,7 @@ class ProductController extends Controller
             $em->persist($product);
             $em->flush();
 
-            return $this->redirectToRoute('product_show', array('id' => $product->getId()));
+            return $this->redirectToRoute('product_show', array('slug' => $product->getSlug()));
         }
 
         return $this->render('product/new.html.twig', array(
