@@ -35,35 +35,43 @@ sonata_admin:
     templates:
             search:              SonataAdminBundle:Core:search.html.twig
             search_result_block: SonataAdminBundle:Block:block_search_result.html.twig
-#    dashboard:
-#            groups:
-#                admin.group.product:
-#                    label: admin.group.product
-#                    label_catalogue: SonataAdminBundle
-#                    items:
-#                        - sonata.admin.product
-#                        - sonata.admin.category
-##                admin.group.others:
-##                    items: ~
-##                    item_adds:
-##                        - sonata.admin.page
-##                    roles: [ ROLE_ONE, ROLE_TWO ]
-##                admin.group.misc: ~
-#            blocks:
-#                -
-#                    position: left
-#                    type: sonata.admin.block.admin_list
-#                -
-#                    position: right
-#                    type: sonata.block.service.text
-#                    settings:
-#                        content: >
-#                            <h2>Note to Content Managers</h2>
-#                            <p>This CMS extends SonataAdminBundle</p>
-#                            <p>You can learn more from below: </p>
-#                -
-#                    position: right
-#                    type: sonata.block.service.rss
-#                    settings:
-#                        title: Sonata Project's Feeds
-#                        url: http://sonata-project.org/blog/archive.rss
+    dashboard:
+            groups:
+                admin.group.product:
+                    label: admin.group.product
+                    label_catalogue: SonataAdminBundle
+                    items:
+                        - sonata.admin.product
+                        - sonata.admin.category
+                admin.group.user:
+                    label: admin.group.user
+                    label_catalogue: SonataAdminBundle
+                    items:
+                        - sonata.user.admin.user
+                        - sonata.user.admin.group
+                    roles: [ ROLE_ADMIN ]
+            blocks:
+                -
+                    position: left
+                    type: sonata.admin.block.admin_list
+                -
+                    position: right
+                    type: sonata.block.service.text
+                    settings:
+                        content: >
+                            <h3>CM News:</h3>
+                            <p>Manages all web content and projects related to the website. Writes,
+                            edits, and proofreads new content. Ensures that all documents meet established
+                            content standards and works with developers to assess any technical challenges
+                            in displaying the content. Requires a bachelor's degree in a related area and at
+                            least 7 years of experience in the field or in a related area. Familiar with a
+                            variety of the field's concepts, practices, and procedures. Relies on extensive
+                            experience and judgment to plan and accomplish goals. Performs a variety of tasks.
+                            Leads and directs the work of others. A wide degree of creativity and latitude is
+                            expected. Typically reports to top management.</p>
+                -
+                    position: right
+                    type: sonata.block.service.rss
+                    settings:
+                        title: Sonata Project's Feeds
+                        url: http://sonata-project.org/blog/archive.rss
