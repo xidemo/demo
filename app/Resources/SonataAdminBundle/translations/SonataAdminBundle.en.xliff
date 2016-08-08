@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+    <file source-language="en" datatype="plaintext" original="">
+        <body>
+            <trans-unit id="admin.group.product">
+                <source>admin.group.product</source>
+                <target>Product Management</target>
+            </trans-unit>
+            <trans-unit id="admin.model.product">
+                <source>admin.model.product</source>
+                <target>Product</target>
+            </trans-unit>
+            <trans-unit id="admin.model.category">
+                <source>admin.model.category</source>
+                <target>Category</target>
+            </trans-unit>
+            <trans-unit id="admin.group.user">
+                <source>admin.group.user</source>
+                <target>User Management</target>
+            </trans-unit>
+            <trans-unit id="admin.model.user">
+                <source>admin.model.user</source>
+                <target>User</target>
+            </trans-unit>
+        </body>
+    </file>
+</xliff>
