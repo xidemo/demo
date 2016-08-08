@@ -12,3 +12,16 @@ AppBundle\Entity\Product:
         createdAt: <dateTimeThisYear()>
         stock: <numberBetween(0, 99)>
 
+Application\Sonata\UserBundle\Entity\User:
+    admin:
+        username: admin
+        email: a@a.net
+        enabled: true
+        plainPassword: admin
+        roles: ["ROLE_ADMIN"]
+    superadmin:
+        username: superadmin
+        email: s@s.net
+        enabled: true
+        plainPassword: superadmin
+        roles: ["ROLE_SUPER_ADMIN"]
