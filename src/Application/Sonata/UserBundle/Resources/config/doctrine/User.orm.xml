@@ -9,7 +9,11 @@
         <id name="id" column="id" type="integer">
             <generator strategy="AUTO" />
         </id>
-
+        <attribute-overrides>
+            <attribute-override name="salt">
+                <field column="salt" type="string" nullable="true"/>
+            </attribute-override>
+        </attribute-overrides>
     </entity>
 
 </doctrine-mapping>
