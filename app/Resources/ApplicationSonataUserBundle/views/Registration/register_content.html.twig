@@ -1,0 +1,23 @@
+{% trans_default_domain 'FOSUserBundle' %}
+
+{{ form_start(form, {'action': path('fos_user_registration_register'), 'method': 'POST', 'attr':{'class': 'fos_user_registration_register'}}) }}
+<fieldset>
+    <legend>Credentials</legend>
+    {{ form_row(form.username) }}
+    {{ form_row(form.plainPassword) }}
+</fieldset>
+<fieldset>
+    <legend>Basic Information</legend>
+    {{ form_rest(form) }}
+</fieldset>
+<div class="checkbox">
+    <label>
+        <input type="checkbox" name="terms">
+        I have read and agree to the <a href="#">Terms and Conditions</a>
+    </label>
+</div>
+<div>
+    <input class="btn btn-primary" type="submit" formnovalidate="formnovalidate"
+           value="{{ 'registration.submit'|trans }}"/>
+</div>
+{{ form_end(form) }}

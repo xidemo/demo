@@ -1,0 +1,31 @@
+{% extends "::base.html.twig" %}
+
+{% block content %}
+    <div class="container">
+        {% if app.request.hasPreviousSession %}
+            {% for type, messages in app.session.flashbag.all() %}
+                {% for message in messages %}
+                    <div class="flash-{{ type }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endfor %}
+        {% endif %}
+
+        <div class="row">
+            <div class="col-sm-offset-3 col-sm-6">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h2 class="panel-title">CMS</h2>
+                    </div>
+                    <div class="panel-body">
+                        {% block fos_user_content %}{% endblock fos_user_content %}
+                    </div>
+                    <div class="panel-footer">
+                        &raquo; <a href="{{ path('fos_user_registration_register') }}">How to become a supplier?</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
