@@ -1,0 +1,31 @@
+/*.navbar {*/
+    /*margin-bottom: 0px;*/
+/*}*/
+
+img.logo {
+    height: 40px;
+    margin: 5px 10px 5px 0px;
+}
+
+#carousel-index .carousel-caption {
+    color: black;
+    right: 52%;
+    text-align: center;
+    max-width: 500px;
+    margin-left: 100px;
+    left: auto;
+    /*top: auto;*/
+    top: 50%;
+    transform: translateY(-50%);
+    bottom: initial;
+}
+
+.icon {
+    width: 50px;
+    margin: 0 auto;
+    display: block;
+}
+
+section {
+    text-align: center;
+}
