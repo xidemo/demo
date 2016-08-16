@@ -1,21 +1,19 @@
-{% extends 'base.html.twig' %}
+{% extends 'base_product.html.twig' %}
 
-{% block body %}
-    <h1>Product list</h1>
-
-    <table>
+{% block product %}
+    <table class="table table-responsive">
         <thead>
-            <tr>
-                <th>Id</th>
-                <th>Name</th>
-                <th>Slug</th>
-                <th>Price</th>
-                <th>Description</th>
-                <th>Image</th>
-                <th>Createdat</th>
-                <th>Stock</th>
-                <th>Actions</th>
-            </tr>
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Slug</th>
+            <th>Price</th>
+            <th>Description</th>
+            <th>Image</th>
+            <th>Createdat</th>
+            <th>Stock</th>
+            <th>Actions</th>
+        </tr>
         </thead>
         <tbody>
         {% for product in products %}
@@ -42,10 +40,4 @@
         {% endfor %}
         </tbody>
     </table>
-
-    <ul>
-        <li>
-            <a href="{{ path('product_new') }}">Create a new entry</a>
-        </li>
-    </ul>
 {% endblock %}

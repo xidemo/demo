@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-2">
+            <h4>product menu</h4>
+        </div>
+        <div class="col-md-10">
+            {% block product %}{% endblock %}
+        </div>
+    </div>
+</div>
+{% endblock %}
