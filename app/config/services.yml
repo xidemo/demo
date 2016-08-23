@@ -2,6 +2,12 @@ services:
     app.utils:
         class: AppBundle\Utils\Utils
 
+    app.menu_builder:
+        class: AppBundle\Menu\MenuBuilder
+        arguments: ["@knp_menu.factory"]
+        tags:
+            - { name: knp_menu.menu_builder, method: createTopMenu, alias: top_menu }
+
     app.doctrine.entity_slugify_listener:
         class: AppBundle\Doctrine\EntitySlugifyListener
         arguments: ["@app.utils"]
