@@ -1,11 +1,17 @@
 AppBundle\Entity\Category:
-    category_{1..20}:
-        name: <company()>
+    category1:
+        name: Industrial & Environmental
+    category2:
+        name: Entertainment & Display
+    category3:
+        name: Agrigulcure & Horticultural
+    category4:
+        name: Intelligent Light Sources
 
 AppBundle\Entity\Product:
     product_{1..100}:
         name: <sentence()>
-        category: '@category_*'
+        category: '@category*'
         price: <numberBetween(10, 1000)>
         description: <paragraph()>
         image: <imageUrl()>

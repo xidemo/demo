@@ -19,6 +19,33 @@
         </tbody>
     </table>
 
+    <table class="table table-responsive" id="assoc_product">
+        <thead>
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Price</th>
+            <th>Description</th>
+            <th>Image</th>
+            <th>Createdat</th>
+            <th>Stock</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for product in category.products %}
+            <tr>
+                <td>{{ product.Id }}</td>
+                <td><a href="{{ path('product_show', { 'slug': product.slug}) }}">{{ product.name }}</a></td>
+                <td>{{ product.price }}</td>
+                <td>{{ product.description }}</td>
+                {#TODO#}
+                {#<td>{{ product.image }}</td>#}
+                <td>{% if product.createdAt %}{{ product.createdAt|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>{{ product.stock }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
     <ul>
         <li>
             <a href="{{ path('category_list') }}">Back to the list</a>

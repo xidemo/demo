@@ -4,9 +4,10 @@ services:
 
     app.menu_builder:
         class: AppBundle\Menu\MenuBuilder
-        arguments: ["@knp_menu.factory"]
+        arguments: ["@knp_menu.factory", "@doctrine.orm.entity_manager"]
         tags:
             - { name: knp_menu.menu_builder, method: createTopMenu, alias: top_menu }
+            - { name: knp_menu.menu_builder, method: createSideMenu, alias: side_menu }
 
     app.doctrine.entity_slugify_listener:
         class: AppBundle\Doctrine\EntitySlugifyListener

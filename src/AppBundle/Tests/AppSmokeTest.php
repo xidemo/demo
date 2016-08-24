@@ -20,7 +20,6 @@ class AppSmokeTest extends BaseWebTestCase
     {
         return array(
             array(''),
-            array('product'),
             array('category'),
             array('admin'),
             array('login'),

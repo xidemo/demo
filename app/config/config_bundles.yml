@@ -30,8 +30,8 @@ sonata_block:
         sonata.block.service.rss: ~
 
 sonata_admin:
-    title:  Content Management
-#    title_logo: bundles\app\images\logo_only.png
+    title:  Acme CMS
+    title_logo: images\logo.png
     templates:
             search:              SonataAdminBundle:Core:search.html.twig
             search_result_block: SonataAdminBundle:Block:block_search_result.html.twig

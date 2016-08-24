@@ -14,6 +14,6 @@ class HomeControllerTest extends BaseWebTestCase
         $response = $this->client->getInternalResponse();
 
         $this->assertEquals(200, $response->getStatus(), "Unexpected HTTP status code for GET product/");
-        $this->assertContains('Welcome to Symfony', $crawler->filter('#container h1')->text());
+        $this->assertContains('Welcome to Acme Optronics!', $crawler->filter('.col-md-8 h1')->text());
     }
 }
