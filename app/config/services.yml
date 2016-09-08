@@ -2,6 +2,10 @@ services:
     app.utils:
         class: AppBundle\Utils\Utils
 
+    app.uploader:
+        class: AppBundle\Utils\FileUploader
+        arguments: ["%upload_folder%"]
+
     app.menu_builder:
         class: AppBundle\Menu\MenuBuilder
         arguments: ["@knp_menu.factory", "@doctrine.orm.entity_manager"]
@@ -9,24 +13,20 @@ services:
             - { name: knp_menu.menu_builder, method: createTopMenu, alias: top_menu }
             - { name: knp_menu.menu_builder, method: createSideMenu, alias: side_menu }
 
+#   Doctrine Listeners
     app.doctrine.entity_slugify_listener:
         class: AppBundle\Doctrine\EntitySlugifyListener
         arguments: ["@app.utils"]
         tags:
             - { name: doctrine.event_subscriber }
 
-#    SonataAdminBundle services
-    sonata.admin.product:
-            class: AppBundle\Admin\ProductAdmin
-            arguments: [~, AppBundle\Entity\Product, ~]
-            tags:
-                - name: sonata.admin
-                  manager_type: orm
-                  group: "admin.group.item"
-                  label: "admin.model.product"
-#            calls:
-#                - [ setTranslationDomain, [SonataAdminBundle]]
+    app.doctrine.entity_file_upload_listner:
+        class: AppBundle\Doctrine\FileUploadListener
+        arguments: ["@app.uploader"]
+        tags:
+            - { name: doctrine.event_subscriber }
 
+#    SonataAdminBundle services
     sonata.admin.category:
             class: AppBundle\Admin\CategoryAdmin
             arguments: [~, AppBundle\Entity\Category, ~]
@@ -37,3 +37,21 @@ services:
                   label: "admin.model.category"
 #            calls:
 #                - [ setTranslationDomain, [SonataAdminBundle]]
+
+    sonata.admin.product:
+            class: AppBundle\Admin\ProductAdmin
+            arguments: [~, AppBundle\Entity\Product, ~]
+            tags:
+                - name: sonata.admin
+                  manager_type: orm
+                  group: "admin.group.item"
+                  label: "admin.model.product"
+
+    sonata.admin.product.image:
+            class: AppBundle\Admin\ProductImageAdmin
+            arguments: [~, AppBundle\Entity\ProductImage, ~]
+            tags:
+                - name: sonata.admin
+                  manager_type: orm
+                  group: "admin.group.item"
+                  label: "admin.model.image"

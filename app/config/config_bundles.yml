@@ -29,6 +29,15 @@ sonata_block:
         sonata.block.service.text: ~
         sonata.block.service.rss: ~
 
+# custom sonata orm admin templates (custom image form field type for show and list, show/edit is implemented via form field type extensions)
+sonata_doctrine_orm_admin:
+    templates:
+        types:
+            show:
+                image: :CRUD:show_image.html.twig
+            list:
+                image: :CRUD:list_image.html.twig
+
 sonata_admin:
     title:  Acme CMS
     title_logo: images\logo.png
@@ -41,8 +50,9 @@ sonata_admin:
                     label: admin.group.product
                     label_catalogue: SonataAdminBundle
                     items:
-                        - sonata.admin.product
                         - sonata.admin.category
+                        - sonata.admin.product
+                        - sonata.admin.product.image
                 admin.group.user:
                     label: admin.group.user
                     label_catalogue: SonataAdminBundle

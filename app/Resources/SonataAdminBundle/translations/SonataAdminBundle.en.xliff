@@ -14,6 +14,10 @@
                 <source>admin.model.category</source>
                 <target>Category</target>
             </trans-unit>
+            <trans-unit id="admin.model.image">
+                <source>admin.model.image</source>
+                <target>Image</target>
+            </trans-unit>
             <trans-unit id="admin.group.user">
                 <source>admin.group.user</source>
                 <target>User Management</target>

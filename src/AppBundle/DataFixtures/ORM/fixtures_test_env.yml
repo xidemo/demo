@@ -8,7 +8,6 @@ AppBundle\Entity\Product:
         category: '@acme_category'
         price: 100
         description: 'acme makes everything'
-        image: 'acme.jpg'
         createdAt: <dateTimeThisYear()>
         stock: 10
 
