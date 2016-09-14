@@ -94,4 +94,9 @@ abstract class Image
     {
         $this->tempFile = $tempFile;
     }
+
+    public function getWebPath()
+    {
+       return 'uploads/'.$this->getFileName();
+    }
 }

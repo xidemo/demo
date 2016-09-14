@@ -1,6 +1,7 @@
 <?php
 namespace AppBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Event\LifecycleEventArgs;
 use Doctrine\ORM\Event\PreUpdateEventArgs;
 use Doctrine\ORM\Mapping as ORM;
@@ -35,7 +36,7 @@ class Product
      */
     protected $slug;
     /**
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Category", inversedBy="products")
+     * @ORM\ManyToOne(targetEntity="Category", inversedBy="products")
      * @ORM\JoinColumn(nullable=false, onDelete="CASCADE")
      */
     protected $category;
@@ -56,9 +57,15 @@ class Product
      */
     protected $stock;
     /**
-     * @ORM\Column(type="string")
+     * @ORM\OneToMany(targetEntity="ProductImage", mappedBy="product", cascade={"all"}, orphanRemoval=true)
+     * @ORM\OrderBy({"id" = "ASC"})
      */
-    protected $image;
+    protected $images;
+
+    public function __construct()
+    {
+        $this->images = new ArrayCollection();
+    }
 
     /**
      * Get id
@@ -233,25 +240,48 @@ class Product
 
 
     /**
-     * Set image
+     * Set images
      *
-     * @param string $image
+     * @param ArrayCollection $images
      *
      * @return Product
      */
-    public function setImage($image)
+    public function setImages($images)
     {
-        $this->image = $image;
+        if (count($images) > 0) {
+            foreach ($images as $image) {
+                $this->addImage($image);
+            }
+        }
         return $this;
     }
 
-    /**
-     * Get image
-     *
-     * @return string
-     */
-    public function getImage()
+    public function addImage(ProductImage $image)
     {
-        return $this->image;
+        $image->setProduct($this);
+
+        $this->images->add($image);
     }
+
+    public function removeImage(ProductImage $image)
+    {
+        $this->images->removeElement($image);
+    }
+
+    /**
+     * Get images
+     *
+     * @return ArrayCollection
+     */
+    public function getImages()
+    {
+        return $this->images;
+    }
+
+
+
+//    public function __toString()
+//    {
+//        return $this->getName();
+//    }
 }

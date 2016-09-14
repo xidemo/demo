@@ -3,6 +3,7 @@
 namespace AppBundle\Admin;
 
 use AppBundle\Entity\ProductImage;
+use DateTime;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
@@ -46,7 +47,7 @@ class ProductImageAdmin extends AbstractAdmin
             ->add('_action', 'actions', [
                 'actions' => [
                     'show' => [],
-//                    'edit' => [], TODO bug fix allow modify image
+                    'edit' => [],
                     'delete' => [],
                 ]
             ])
@@ -80,6 +81,19 @@ class ProductImageAdmin extends AbstractAdmin
             ? $object->getFileName()
             : "Product Image";
     }
+
+    /**
+     *  delete old file and help trigger external doctrine update event
+     * TODO refactor to lifecycle or within admin class?
+     * 
+     * @param ProductImage $image
+     */
+    public function preUpdate($image)
+    {
+        $this->deleteImageFile($image);
+        $image->setCreatedAt(new DateTime());
+    }
+
 
     /**
      * Delete physical file after remove Image

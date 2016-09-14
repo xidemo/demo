@@ -56,7 +56,15 @@ PRICE_FIELD_HELP;
             ->with('Gallery', [
                 'class' => 'col-md-6'
             ])
-            ->add('image')
+            ->add('images', 'sonata_type_collection', array(
+                'label' => ' ',
+                'required' => false,
+                'by_reference' => false,
+            ), array(
+                'edit' => 'inline',
+                'inline' => 'table',
+                'sortable' => 'id',
+            ))
             ->end()
             ->end();
     }
@@ -129,4 +137,15 @@ PRICE_FIELD_HELP;
             ? $object->getName()
             : "Product";
     }
+
+    public function prePersist($product)
+    {
+        $this->preUpdate($product);
+    }
+
+    public function preUpdate($product)
+    {
+        $product->setImages($product->getImages());
+    }
+
 }

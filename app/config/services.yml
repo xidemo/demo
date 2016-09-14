@@ -13,6 +13,12 @@ services:
             - { name: knp_menu.menu_builder, method: createTopMenu, alias: top_menu }
             - { name: knp_menu.menu_builder, method: createSideMenu, alias: side_menu }
 
+#   Form field type extensions
+    app.image_type_extension:
+        class: AppBundle\Form\Extension\ImageTypeExtension
+        tags:
+            - { name: form.type_extension, extended_type: Symfony\Component\Form\Extension\Core\Type\FileType }
+
 #   Doctrine Listeners
     app.doctrine.entity_slugify_listener:
         class: AppBundle\Doctrine\EntitySlugifyListener
