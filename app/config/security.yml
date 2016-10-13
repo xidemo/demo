@@ -31,6 +31,7 @@ security:
                 provider:       fos_userbundle
                 login_path:     /admin/login
                 use_forward:    false
+                default_target_path: /admin
                 check_path:     /admin/login_check
                 failure_path:   null
             logout:
