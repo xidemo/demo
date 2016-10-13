@@ -12,3 +12,5 @@
 /bin/
 /composer.phar
 /.idea/
+
+tests/_output/*

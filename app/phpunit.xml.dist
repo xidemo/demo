@@ -9,7 +9,7 @@
 >
     <php>
         <ini name="error_reporting" value="-1" />
-        <env name="TEST_BASE_URL" value="http://localhost/symfony2_bp/web/app_test.php/" />
+        <env name="TEST_BASE_URL" value="http://acme.app/app_dev.php/" />
         <!-- change to 'strict' to enable deprecation notices in phpunit bridge -->
         <env name="SYMFONY_DEPRECATIONS_HELPER" value="weak" />
     </php>
