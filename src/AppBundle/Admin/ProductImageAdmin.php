@@ -8,6 +8,7 @@ use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 use Sonata\AdminBundle\Form\FormMapper;
+use Sonata\AdminBundle\Route\RouteCollection;
 use Sonata\AdminBundle\Show\ShowMapper;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -20,6 +21,11 @@ class ProductImageAdmin extends AbstractAdmin
     protected $baseRoutePattern = 'product/image';
     // Override translation catalogue (default is 'messages')
     protected $translationDomain = 'SonataAdminBundle';
+    // Disable the 'create' functionality
+//    protected function configureRoutes(RouteCollection $collection)
+//    {
+//        $collection->remove('create');
+//    }
 
     // Fields to be shown on create/edit forms
     protected function configureFormFields(FormMapper $formMapper)
@@ -28,6 +34,7 @@ class ProductImageAdmin extends AbstractAdmin
             ->with('Product Image', [
                 'class' => 'col-md-6'
             ])
+            ->add('product')
             ->add('tempFile', FileType::class, array(
                 'image_path' => 'webPath',
                 'label' => 'Thumbnail'
@@ -54,7 +61,7 @@ class ProductImageAdmin extends AbstractAdmin
             ->add('product', 'sonata_type_model', array(
                 'class' => 'AppBundle\Entity\Product',
                 'associated_property' => 'name',
-                'label' => 'Associate product'
+                'label' => 'Product'
             ))
             ->add('createdAt');
     }
@@ -63,6 +70,11 @@ class ProductImageAdmin extends AbstractAdmin
     protected function configureShowFields(ShowMapper $showMapper)
     {
         $showMapper
+            ->add('product', 'sonata_type_model', array(
+                'class' => 'AppBundle\Entity\Product',
+                'associated_property' => 'name',
+                'label' => 'Product:'
+            ))
             ->add('fileName', 'image', array(
                 'prefix' => $this->getImageWebFolder(),
                 'width' => 400,

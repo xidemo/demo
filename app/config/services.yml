@@ -60,4 +60,4 @@ services:
                 - name: sonata.admin
                   manager_type: orm
                   group: "admin.group.item"
-                  label: "admin.model.image"
+                  label: "admin.model.pimages"
