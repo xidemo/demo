@@ -8,6 +8,6 @@ class_name: AcceptanceTester
 modules:
     enabled:
         - WebDriver:
-            url:
+            url: 'http://localhost/acme/web'
             browser: firefox
         - \Helper\Acceptance
