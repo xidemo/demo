@@ -15,10 +15,28 @@
  * @method \Codeception\Lib\Friend haveFriend($name, $actorClass = NULL)
  *
  * @SuppressWarnings(PHPMD)
-*/
+ */
 class AcceptanceTester extends \Codeception\Actor
 {
     use _generated\AcceptanceTesterActions;
 
-    //TODO:
+    public function getListButton($name)
+    {
+        return '//td[normalize-space(text())="' . $name . '"]/following-sibling::td//a[contains(@class,"link_list")]';
+    }
+
+    public function getEditButton($name)
+    {
+        return '//td[a[normalize-space(text())="' . $name . '"]]/following-sibling::td//a[contains(@class,"edit_link")]';
+    }
+
+    public function getDeleteButton($name)
+    {
+        return '//td[a[normalize-space(text())="' . $name . '"]]/following-sibling::td//a[contains(@class,"delete_link")]';
+    }
+
+    public function getInputFieldByPlaceholder($placeholder)
+    {
+       return '//input[@placeholder="'. $placeholder . '"]';
+    }
 }
