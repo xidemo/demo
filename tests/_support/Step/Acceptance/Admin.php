@@ -18,8 +18,8 @@ class Admin extends \AcceptanceTester
     {
         $I = $this;
         // logging out
-        $I->click('body > div > header > nav > div.navbar-custom-menu > ul > li.dropdown.user-menu > a');
-        $I->click('body > div > header > nav > div.navbar-custom-menu > ul > li.dropdown.user-menu.open > ul > li.user-footer > div.pull-right > a');
+        $I->click('//li[contains(@class,"user-menu")]/a');
+        $I->click('//li[contains(@class,"user-menu")]//a[contains(text(),"Logout")]');
         $I->waitForText('CMS');
     }
 

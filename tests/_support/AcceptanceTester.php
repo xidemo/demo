@@ -35,8 +35,14 @@ class AcceptanceTester extends \Codeception\Actor
         return '//td[a[normalize-space(text())="' . $name . '"]]/following-sibling::td//a[contains(@class,"delete_link")]';
     }
 
-    public function getInputFieldByPlaceholder($placeholder)
+    public function getTabButtonByText($text)
     {
-       return '//input[@placeholder="'. $placeholder . '"]';
+        return '//ul[@role="tablist"]//a[normalize-space(text())="' . $text . '"]';
     }
+
+    public function getFormFieldByLabel($text)
+    {
+        return '//label[contains(text(), "'. $text .'")]/../div/*[1]';
+    }
+
 }
