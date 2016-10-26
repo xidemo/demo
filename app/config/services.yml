@@ -33,7 +33,7 @@ services:
             - { name: doctrine.event_subscriber }
 
 #    SonataAdminBundle services
-    sonata.admin.category:
+    app.admin.category:
             class: AppBundle\Admin\CategoryAdmin
             arguments: [~, AppBundle\Entity\Category, ~]
             tags:
@@ -44,7 +44,7 @@ services:
 #            calls:
 #                - [ setTranslationDomain, [SonataAdminBundle]]
 
-    sonata.admin.product:
+    app.admin.product:
             class: AppBundle\Admin\ProductAdmin
             arguments: [~, AppBundle\Entity\Product, ~]
             tags:
@@ -53,7 +53,7 @@ services:
                   group: "admin.group.item"
                   label: "admin.model.product"
 
-    sonata.admin.product.image:
+    app.admin.product_image:
             class: AppBundle\Admin\ProductImageAdmin
             arguments: [~, AppBundle\Entity\ProductImage, ~]
             tags:
@@ -61,3 +61,6 @@ services:
                   manager_type: orm
                   group: "admin.group.item"
                   label: "admin.model.pimages"
+
+parameters:
+    security.acl.permission.map.class: Sonata\AdminBundle\Security\Acl\Permission\AdminPermissionMap
