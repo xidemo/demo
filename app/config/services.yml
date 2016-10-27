@@ -6,6 +6,10 @@ services:
         class: AppBundle\Utils\FileUploader
         arguments: ["%upload_folder%"]
 
+    app.fixture_loader:
+        class: AppBundle\Utils\FixtureLoader
+        arguments: ["@service_container"]
+
     app.menu_builder:
         class: AppBundle\Menu\MenuBuilder
         arguments: ["@knp_menu.factory", "@doctrine.orm.entity_manager"]
