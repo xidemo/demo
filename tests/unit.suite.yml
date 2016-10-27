@@ -5,5 +5,8 @@
 class_name: UnitTester
 modules:
     enabled:
+        - Symfony:
+        - Doctrine2:
+            depends: Symfony
         - Asserts
         - \Helper\Unit

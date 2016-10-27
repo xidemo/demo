@@ -21,10 +21,10 @@ Application\Sonata\UserBundle\Entity\User:
         salt: null
         roles: ["ROLE_ADMIN"]
     superadmin:
-        username: superadmin
+        username: root
         email: s@s.net
         enabled: true
-        plainPassword: superadmin
+        plainPassword: root
         # salt must be null for bcrpt
         salt: null
         roles: ["ROLE_SUPER_ADMIN"]
