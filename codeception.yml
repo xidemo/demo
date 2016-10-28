@@ -15,7 +15,9 @@ extensions:
 modules:
     config:
         Db:
-            dsn: ''
-            user: ''
+            dsn: 'mysql:host=localhost; dbname=symfony_test'
+            user: 'root'
             password: ''
             dump: tests/_data/dump.sql
+            populate: true
+            cleanup: false

@@ -18,19 +18,35 @@ AppBundle\Entity\Product:
         stock: <numberBetween(0, 99)>
 
 Application\Sonata\UserBundle\Entity\User:
-    admin:
-        username: admin
-        email: a@a.net
+    user:
+        username: tom
+        email: t@t.net
         enabled: true
-        plainPassword: admin
+        plainPassword: tom
         # salt must be null for bcrpt
         salt: null
-        roles: ["ROLE_ADMIN"]
+        roles: ["ROLE_USER"]
+    content_staff:
+        username: lili
+        email: l@l.net
+        enabled: true
+        plainPassword: lili
+        # salt must be null for bcrpt
+        salt: null
+        roles: ["ROLE_CONTENT_STAFF"]
+    content_admin:
+        username: alice
+        email: a@a.net
+        enabled: true
+        plainPassword: alice
+        # salt must be null for bcrpt
+        salt: null
+        roles: ["ROLE_CONTENT_ADMIN"]
     superadmin:
-        username: superadmin
+        username: ryan
         email: s@s.net
         enabled: true
-        plainPassword: superadmin
+        plainPassword: ryan
         # salt must be null for bcrpt
         salt: null
         roles: ["ROLE_SUPER_ADMIN"]

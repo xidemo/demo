@@ -6,12 +6,12 @@ class CategoryAdminCest
 {
     public function _before(AdminTester $I)
     {
-        $I->loginAsAdmin();
+        $I->loginAsSuperAdmin();
     }
 
     public function _after(AdminTester $I)
     {
-        $I->logoutAsAdmin();
+        $I->logout();
     }
 
     public function CategoryCRUD(AdminTester $I)

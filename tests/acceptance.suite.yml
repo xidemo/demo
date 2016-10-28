@@ -8,6 +8,7 @@ class_name: AcceptanceTester
 modules:
     enabled:
         - WebDriver:
-            url: 'http://localhost/acme/web'
+            url: 'http://localhost/acme/web/app_test.php'
             browser: firefox
         - \Helper\Acceptance
+        - Db  # auto loading fixtures

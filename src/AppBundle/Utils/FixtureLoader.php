@@ -17,7 +17,7 @@ class FixtureLoader
     }
 
     /**
-     * TODO: environment control fixed on test dev
+     * TODO: environment control stuck on test
      * Load default Alice/Faker fixture file
      * @param string $filename
      * @param string $environment

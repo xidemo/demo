@@ -10,3 +10,4 @@ modules:
             depends: Symfony
         - Asserts
         - \Helper\Unit
+        - Db # auto loading fixtures

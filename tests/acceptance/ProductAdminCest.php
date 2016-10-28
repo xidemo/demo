@@ -6,12 +6,12 @@ class ProductAdminCest
 {
     public function _before(AdminTester $I)
     {
-        $I->loginAsAdmin();
+        $I->loginAsSuperAdmin();
     }
 
     public function _after(AdminTester $I)
     {
-        $I->logoutAsAdmin();
+//        $I->logout();
     }
 
     public function ProductCRUD(AdminTester $I)
@@ -41,8 +41,7 @@ class ProductAdminCest
         $I->click('Create and return to list');
         $I->waitForText('Item "Fancy Product" has been successfully created.');
         $I->click('//a[@title="Last"]');
-        $I->wait(2);
-        $I->canSee('Fancy Product');
+        $I->waitForElement('//a[text()="Fancy Product"]');
 
         //Update 'Fancy Product' to 'Great Product'
         $I->click($I->getEditButton('Fancy Product'));
@@ -52,8 +51,7 @@ class ProductAdminCest
         $I->click('Update and close');
         $I->waitForText('Item "Great Product" has been successfully updated.');
         $I->click('//a[@title="Last"]');
-        $I->wait(2);
-        $I->canSee('Great Product');
+        $I->waitForElement('//a[text()="Great Product"]');
 
         //Delete 'Shiny Dog'
         $I->click($I->getDeleteButton('Great Product'));
