@@ -42,7 +42,17 @@ class AcceptanceTester extends \Codeception\Actor
 
     public function getFormFieldByLabel($text)
     {
-        return '//label[contains(text(), "'. $text .'")]/../div/*[1]';
+        return '//label[contains(text(), "' . $text . '")]/../div/*[1]';
+    }
+
+    public function clickCellLink($text)
+    {
+        $this->click('//td[a[contains("' . $text . '",text())]]/a');
+    }
+
+    public function getCheckBoxByValue($value)
+    {
+        return '//input[@value="' . $value . '"]/following-sibling::ins';
     }
 
 }
