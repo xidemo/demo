@@ -17,7 +17,7 @@ modules:
         Db:
             dsn: 'mysql:host=localhost; dbname=symfony_test'
             user: 'root'
-            password: ''
+            password: 'root'
             dump: tests/_data/dump.sql
             populate: true
             cleanup: false
