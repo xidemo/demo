@@ -13,5 +13,10 @@
 /composer.phar
 /.idea/
 
+#codeception
 tests/_output/*
 tests/_support/_generated
+
+#frontend vendor
+/bower_components/
+/node_modules/

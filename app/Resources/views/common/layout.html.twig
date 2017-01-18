@@ -1,13 +1,14 @@
 {% extends 'base.html.twig' %}
 
+{% set menu = knp_menu_get('entity_sub_menu', [], {entity: 'category'}) %}
 {% block content %}
 <div class="container">
     <div class="row">
-        <div class="col-md-2">
+        <div class="col-md-3">
             <h4>Acme Category</h4>
-            {{ knp_menu_render('side_menu') }}
+            {{ knp_menu_render(menu) }}
         </div>
-        <div class="col-md-10">
+        <div class="col-md-9">
             {% block category %}{% endblock %}
         </div>
     </div>
