@@ -1,35 +1,26 @@
-{% extends 'base_product.html.twig' %}
+{% extends ':common:layout.html.twig' %}
 
-{% block product %}
-    <h2>{{ product.name }}</h2>
+{% block page_title %}
+    <h1>{{ product.name }}</h1>
+{% endblock %}
+
+{% block main %}
     <table class="table table-responsive">
         <tbody>
             <tr>
-                <th>Id</th>
-                <td>{{ product.id }}</td>
-            </tr>
-            <tr>
-                <th>Name</th>
-                <td>{{ product.name }}</td>
-            </tr>
-            <tr>
-                <th>Slug</th>
-                <td>{{ product.slug }}</td>
+                <th>Description</th>
+                <td>{{ product.description }}</td>
             </tr>
             <tr>
                 <th>Price</th>
                 <td>{{ product.price }}</td>
             </tr>
             <tr>
-                <th>Description</th>
-                <td>{{ product.description }}</td>
-            </tr>
-            <tr>
                 <th>Image</th>
                 <td> TODO </td>
             </tr>
             <tr>
-                <th>Createdat</th>
+                <th>Created At</th>
                 <td>{% if product.createdAt %}{{ product.createdAt|date('Y-m-d H:i:s') }}{% endif %}</td>
             </tr>
             <tr>

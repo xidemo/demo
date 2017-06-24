@@ -4,6 +4,7 @@ namespace AppBundle\Menu;
 
 use Doctrine\ORM\EntityManager;
 use Knp\Menu\FactoryInterface;
+use Symfony\Component\HttpFoundation\RequestStack;
 
 class MenuBuilder
 {
@@ -23,14 +24,15 @@ class MenuBuilder
         $this->em = $em;
     }
 
-    public function createTopMenu(array $options)
+    public function createMainMenu(array $options)
     {
         $categories = $this->em->getRepository('AppBundle:Category')->findAll();
 
         $menu = $this->factory->createItem('root');
         $menu->setChildrenAttribute('class', 'nav navbar-nav navbar-left');
 
-        $menu->addChild('Solutions', array('route' => 'category_list'));
+        //Solutions
+        $menu->addChild('Solutions', array('route' => 'solution_list'));
 
         //Products
         $menu->addChild('Products', array('uri' => '#'));
@@ -65,23 +67,38 @@ class MenuBuilder
         return $menu;
     }
 
-    public function createSideMenu(array $options)
+    public function createSubMenuFromEntity(array $options)
     {
-        $categories = $this->em->getRepository('AppBundle:Category')->findAll();
+        $menu = $this->factory->createItem('entity_sub_menu')
+            ->setChildrenAttribute(
+                'class',
+                'nav nav-pills .nav-stacked'
+            );
 
-        $menu = $this->factory->createItem('root');
+        if (isset($options['entity']) && $options['entity']) {
+            $entityName = $options['entity'];
+        } else {
+            throw new \Exception('entity not found for creating sub menu');
+        }
 
-        $menu->addChild('Category', array('route' => 'category_list'));
-        $menu['Category']->setChildrenAttribute('class', 'sidenav');
+        $items = $this->em->getRepository('AppBundle:' . $entityName)->findAll();
 
-        foreach ($categories as $category) {
-            $menu['Category']->addChild($category->getName(), array(
-                'route' => 'category_show',
-                'routeParameters' => array('slug' => $category->getSlug()),
-            ));
+//        $menu->addChild($entity)
+//             ->setAttribute('class', 'panel-head');//, array('route' => $entity . '_list'));
+//        $menu[$entity]->setChildrenAttribute('class', 'list-group');
+        foreach ($items as $item) {
+            $menu
+                ->addChild($item->getName(), array(
+                    'route' => $entityName . '_show',
+                    'routeParameters' => array('slug' => $item->getSlug()),
+                ));
+//                ->setAttribute(
+//                    'class', 'list-group-item'
+//                );
         }
 
         return $menu;
     }
+
 }
 
