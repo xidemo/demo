@@ -1,16 +1,29 @@
 {% extends 'base.html.twig' %}
 
-{% set menu = knp_menu_get('entity_sub_menu', [], {entity: 'category'}) %}
 {% block content %}
-<div class="container">
-    <div class="row">
-        <div class="col-md-3">
-            <h4>Acme Category</h4>
-            {{ knp_menu_render(menu) }}
+    <div class="container">
+        <div>
+            <ol class="breadcrumb margin-none">
+                <i class="fa fa-home"></i>
+                {% for breadcrumb_item in knp_menu_get_breadcrumbs_array(knp_menu_get_current_item('main_menu')) %}
+                    {% if not loop.last %}
+                        <li><a href="{{ breadcrumb_item.uri }}">{{ breadcrumb_item.label }}</a></li>
+                    {% else %}
+                        <li class="active">{{ breadcrumb_item.label }}</li>
+                    {% endif %}
+                {% endfor %}
+            </ol>
         </div>
-        <div class="col-md-9">
-            {% block category %}{% endblock %}
-        </div>
+        <header class="row">
+            <div class="col-md-12">
+                {% block page_title %}{% endblock %}
+            </div>
+        </header>
+        <nav class="browser-menu row col-md-3 ">
+            {% include ":common:sidebar.html.twig" %}
+        </nav>
+        <main class="col-md-9">
+            {% block main %}{% endblock %}
+        </main>
     </div>
-</div>
 {% endblock %}

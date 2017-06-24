@@ -1,0 +1,14 @@
+{% set menu1 = knp_menu_get('entity_sub_menu', [], {entity: 'solution'}) %}
+{% set menu2 = knp_menu_get('entity_sub_menu', [], {entity: 'category'}) %}
+{% set menu3 = knp_menu_get('entity_sub_menu', [], {entity: 'product'}) %}
+
+<div class="panel panel-default">
+    {{ knp_menu_render(menu1) }}
+</div>
+<div class="panel panel-default">
+    {{ knp_menu_render(menu2) }}
+</div>
+<div class="panel panel-default">
+    {{ knp_menu_render(menu3) }}
+</div>
+
