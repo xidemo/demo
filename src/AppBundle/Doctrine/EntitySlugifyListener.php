@@ -1,13 +1,17 @@
 <?php
+/**
+ * this listener is for demonstration purpose
+ * use stofDoctrineExtension Sluggable annotation instead for a more scalable project
+ */
 
 namespace AppBundle\Doctrine;
 
 use AppBundle\Entity\Category;
 use AppBundle\Entity\Product;
+use AppBundle\Entity\Solution;
 use AppBundle\Utils\Utils;
 use Doctrine\Common\EventSubscriber;
 use Doctrine\ORM\Event\LifecycleEventArgs;
-use Symfony\Component\Validator\Constraints\DateTime;
 
 class EntitySlugifyListener implements EventSubscriber
 {
@@ -21,7 +25,10 @@ class EntitySlugifyListener implements EventSubscriber
     public function prePersist(LifecycleEventArgs $args)
     {
         $entity = $args->getEntity();
-        if (!$entity instanceof Category && !$entity instanceof Product) {
+        if (!$entity instanceof Category
+            && !$entity instanceof Product
+            && !$entity instanceof Solution
+        ) {
             return;
         }
 
@@ -35,7 +42,10 @@ class EntitySlugifyListener implements EventSubscriber
     public function preUpdate(LifecycleEventArgs $args)
     {
         $entity = $args->getEntity();
-        if (!$entity instanceof Category && !$entity instanceof Product) {
+        if (!$entity instanceof Category
+            && !$entity instanceof Product
+            && !$entity instanceof Solution
+        ) {
             return;
         }
 

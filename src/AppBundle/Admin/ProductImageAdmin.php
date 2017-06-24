@@ -32,12 +32,12 @@ class ProductImageAdmin extends AbstractAdmin
     {
         $formMapper
             ->with('Product Image', [
-                'class' => 'col-md-6'
+                'class' => 'col-md-12'
             ])
             ->add('product')
             ->add('tempFile', FileType::class, array(
                 'image_path' => 'webPath',
-                'label' => 'Thumbnail'
+                'label' => 'Thumbnail',
             ))
             ->end();
     }
@@ -51,6 +51,7 @@ class ProductImageAdmin extends AbstractAdmin
                 'width' => 100,
                 'label' => 'Image previews'
             ))
+            ->add('id', 'badge')
             ->add('_action', 'actions', [
                 'actions' => [
                     'show' => [],

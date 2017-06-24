@@ -1,17 +1,32 @@
+AppBundle\Entity\Solution:
+    solution1:
+        name: Industrial
+        description: <paragraph($nb = 5)>
+    solution2:
+        name: Cinema
+        description: <paragraph($nb = 5)>
+    solution3:
+        name: Agriculture
+        description: <paragraph($nb = 5)>
+    solution4:
+        name: Data Center
+        description: <paragraph($nb = 5)>
+
 AppBundle\Entity\Category:
     category1:
         name: Industrial & Environmental
     category2:
         name: Entertainment & Display
     category3:
-        name: Agrigulcure & Horticultural
+        name: Agriculture & Horticultural
     category4:
         name: Intelligent Light Sources
 
 AppBundle\Entity\Product:
     product_{1..100}:
-        name: <sentence()>
+        name: <sentence($nbWords=6)>
         category: '@category*'
+        productSolutions: '1x @solution*'
         price: <numberBetween(10, 1000)>
         description: <paragraph()>
         createdAt: <dateTimeThisYear()>

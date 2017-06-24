@@ -14,10 +14,10 @@ services:
         class: AppBundle\Menu\MenuBuilder
         arguments: ["@knp_menu.factory", "@doctrine.orm.entity_manager"]
         tags:
-            - { name: knp_menu.menu_builder, method: createTopMenu, alias: top_menu }
-            - { name: knp_menu.menu_builder, method: createSideMenu, alias: side_menu }
+            - { name: knp_menu.menu_builder, method: createMainMenu, alias: main_menu }
+            - { name: knp_menu.menu_builder, method: createSubMenuFromEntity, alias: entity_sub_menu }
 
-#   Form field type extensions
+#   Form Field Type Extensions
     app.image_type_extension:
         class: AppBundle\Form\Extension\ImageTypeExtension
         tags:
@@ -36,7 +36,18 @@ services:
         tags:
             - { name: doctrine.event_subscriber }
 
-#    SonataAdminBundle services
+#    Sonata Admin services
+    app.admin.solution:
+            class: AppBundle\Admin\SolutionAdmin
+            arguments: [~, AppBundle\Entity\Solution, ~]
+            tags:
+                - name: sonata.admin
+                  manager_type: orm
+                  group: "admin.group.solution"
+                  label: "admin.model.solution"
+#            calls:
+#                - [ setTranslationDomain, [SonataAdminBundle]]
+
     app.admin.category:
             class: AppBundle\Admin\CategoryAdmin
             arguments: [~, AppBundle\Entity\Category, ~]
@@ -45,8 +56,6 @@ services:
                   manager_type: orm
                   group: "admin.group.item"
                   label: "admin.model.category"
-#            calls:
-#                - [ setTranslationDomain, [SonataAdminBundle]]
 
     app.admin.product:
             class: AppBundle\Admin\ProductAdmin

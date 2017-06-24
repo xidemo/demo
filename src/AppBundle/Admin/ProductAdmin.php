@@ -15,6 +15,9 @@ class ProductAdmin extends AbstractAdmin
     protected $baseRoutePattern = 'product';
     // Override translation catalogue (default is 'messages')
     protected $translationDomain = 'SonataAdminBundle';
+    // Enable preview mode
+    // protected $supportsPreviewMode = true;
+
     const PRICE_FIELD_HELP_MESSAGE = <<<'PRICE_FIELD_HELP'
 <small>Note: The currency is in New Zealand dollars</small>
 PRICE_FIELD_HELP;
@@ -24,48 +27,52 @@ PRICE_FIELD_HELP;
     {
         $formMapper
             ->tab('Product Information')
-            ->with('Product Information', [
-                'class' => 'col-md-6'
-            ])
-            ->add('name', 'text', [
-                'label' => 'Product Name'
-            ])
-            ->add('category', 'sonata_type_model', [
-                'class' => 'AppBundle\Entity\Category',
-                'property' => 'name',
-            ])
-            ->add('description', 'textarea')
-            ->end()
-            ->end()
+                ->with('Product Information', [
+                    'class' => 'col-md-12'
+                ])
+                ->add('name', 'text', [
+                    'label' => 'Product Name'
+                ])
+                ->add('category', 'sonata_type_model', [
+                    'class' => 'AppBundle\Entity\Category',
+                    'property' => 'name',
+                ])
+                ->add('description', 'textarea', array(
+                    'attr' => array(
+                    'rows' => '10'
+                )
+                ))
+                ->end()
+                ->end()
             ->tab('Pricing & Stock')
-            ->with('Pricing & Stock', [
-                'class' => 'col-md-6',
-                // 'description'=>'This section contains more product description'
-            ])
-            ->add('price', 'money', [
-                'help' => self::PRICE_FIELD_HELP_MESSAGE,
-                'currency' => 'false',
-                'attr' => [
-                    'placeholder' => 'Amount in NZD',
-                ]
-            ])
-            ->add('stock')
-            ->end()
+                ->with('Pricing & Stock', [
+                    'class' => 'col-md-12',
+                    // 'description'=>'This section contains more product description'
+                ])
+                ->add('price', 'money', [
+                    'help' => self::PRICE_FIELD_HELP_MESSAGE,
+                    'currency' => 'false',
+                    'attr' => [
+                        'placeholder' => 'Amount in NZD',
+                    ]
+                ])
+                ->add('stock')
+                ->end()
             ->end()
             ->tab('Gallery')
-            ->with('Gallery', [
-                'class' => 'col-md-6'
-            ])
-            ->add('images', 'sonata_type_collection', array(
-                'label' => ' ',
-                'required' => false,
-                'by_reference' => false,
-            ), array(
-                'edit' => 'inline',
-                'inline' => 'table',
-                'sortable' => 'id',
-            ))
-            ->end()
+                ->with('Gallery', [
+                    'class' => 'col-md-12'
+                ])
+                ->add('images', 'sonata_type_collection', array(
+                    'label' => ' ',
+                    'required' => false,
+                    'by_reference' => false,
+                ), array(
+                    'edit' => 'inline',
+                    'inline' => 'table',
+                    'sortable' => 'id',
+                ))
+                ->end()
             ->end();
     }
 
