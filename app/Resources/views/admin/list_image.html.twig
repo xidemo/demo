@@ -8,7 +8,7 @@
             <img src="{% if field_description.options.prefix is defined %}{{ field_description.options.prefix }}{% endif %}{{ value }}"
                  style="max-width:{{ width }}px; max-height:{{ height }}px;" />
         {% else %}
-            <div class="no-image" style="width:{{ width }}px; height:{{ height }}px;"></div>
+            <div style="width:{{ width }}px; height:{{ height }}px; display: none;"></div>
         {% endif %}
     {% endspaceless %}
 {% endblock %}
