@@ -1,4 +1,5 @@
 <?php
+
 namespace AppBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
@@ -41,6 +42,18 @@ class Product
      */
     protected $category;
     /**
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Solution", inversedBy="solutionProducts")
+     * @ORM\JoinTable(name="products_solutions",
+     *      joinColumns={
+     *          @ORM\JoinColumn(name="solution_id", referencedColumnName="id")
+     *      },
+     *      inverseJoinColumns={
+     *          @ORM\JoinColumn(name="product_id", referencedColumnName="id")
+     *   }
+     * )
+     */
+    protected $productSolutions;
+    /**
      * @ORM\Column(type="decimal", scale=2)
      */
     protected $price;
@@ -64,7 +77,24 @@ class Product
 
     public function __construct()
     {
+        $this->productSolutions = new ArrayCollection();
         $this->images = new ArrayCollection();
+    }
+
+    /**
+     * @return ArrayCollection|Solution[]
+     */
+    public function getProductSolutions()
+    {
+        return $this->productSolutions;
+    }
+
+    /**
+     * @param Solution $solution
+     */
+    public function addProductSolutions(Solution $solution)
+    {
+        $this->productSolutions[] = $solution;
     }
 
     /**
@@ -280,6 +310,6 @@ class Product
 
     public function __toString()
     {
-        return $this->getName();
+        return (string)$this->getName();
     }
 }
