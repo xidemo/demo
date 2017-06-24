@@ -1,0 +1,26 @@
+{% extends ':common:layout.html.twig' %}
+
+{% block page_title %}
+    <h1>Our Solutions</h1>
+{% endblock %}
+
+{% block main %}
+    <table class="table table-responsive">
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>Description</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for solution in solutions %}
+            <tr>
+                <td><a href="{{ path('solution_show', { 'slug': solution.slug }) }}">{{ solution.name }}</a></td>
+                <td>{{ solution.description }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+
+{% endblock %}
