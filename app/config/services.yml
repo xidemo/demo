@@ -10,6 +10,15 @@ services:
         class: AppBundle\Utils\FixtureLoader
         arguments: ["@service_container"]
 
+#   Twig Extension
+    app.twig_extension:
+        class: AppBundle\Twig\AppExtension
+        autowire: true
+        public: false
+        tags:
+            - { name: twig.extension }
+
+#   Menu Builders
     app.menu_builder:
         class: AppBundle\Menu\MenuBuilder
         arguments: ["@knp_menu.factory", "@doctrine.orm.entity_manager"]
