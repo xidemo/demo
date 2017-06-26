@@ -38,6 +38,9 @@ a:focus {
     outline: 5px auto -webkit-focus-ring-color;
     outline-offset: -2px;
 }
+ul.breadcrumb i.fa {
+    color: #148fcc;
+}
 
 .margin-none {
     margin: 0 !important;

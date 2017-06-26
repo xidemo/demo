@@ -2,6 +2,8 @@
 
 namespace AppBundle\Menu;
 
+use AppBundle\Entity\Product;
+use AppBundle\Repository\ProductRepository;
 use Doctrine\ORM\EntityManager;
 use Knp\Menu\FactoryInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -26,27 +28,51 @@ class MenuBuilder
 
     public function createMainMenu(array $options)
     {
-        $categories = $this->em->getRepository('AppBundle:Category')->findAll();
-
-        $menu = $this->factory->createItem('root');
+        $menu = $this->factory->createItem('Home');
+        $menu->setUri('/');
         $menu->setChildrenAttribute('class', 'nav navbar-nav navbar-left');
 
-        //Solutions
-        $menu->addChild('Solutions', array('route' => 'solution_list'));
-
-        //Products
-        $menu->addChild('Products', array('uri' => '#'));
-        $menu['Products']->setChildrenAttribute('class', 'dropdown-menu');
-        $menu['Products']->setLinkAttributes(array(
+        //Solution
+        $menu->addChild('Solution', array('route' => 'solution_list'));
+        $menu['Solution']->setChildrenAttribute('class', 'dropdown-menu');
+        $menu['Solution']->setLinkAttributes(array(
             'href' => 'self',
             'class' => 'dropdown-toggle',
             'data-toggle' => 'dropdown'
         ));
+        $solutions = $this->em->getRepository('AppBundle:Solution')->findAll();
+        foreach ($solutions as $solution) {
+            $menu['Solution']->addChild($solution->getName(), array(
+                'route' => 'solution_show',
+                'routeParameters' => array('slug' => $solution->getSlug()),
+            ));
+        }
+
+        //Products
+        $menu->addChild('Product', array('route' => 'category_list'));
+        $menu['Product']->setChildrenAttribute('class', 'dropdown-menu');
+        $menu['Product']->setLinkAttributes(array(
+            'href' => 'self',
+            'class' => 'dropdown-toggle',
+            'data-toggle' => 'dropdown'
+        ));
+        $categories = $this->em->getRepository('AppBundle:Category')->findAll();
         foreach ($categories as $category) {
-            $menu['Products']->addChild($category->getName(), array(
+            $menu['Product']->addChild($category->getName(), array(
                 'route' => 'category_show',
                 'routeParameters' => array('slug' => $category->getSlug()),
             ));
+            //Prepare products only for breadcrumb
+            /** @var Product[] $products */
+            $products = $this->em->getRepository('AppBundle:Product')->findAllProductsByCategory($category->getId());
+            foreach ($products as $product) {
+                $menu['Product'][$category->getName()]
+                    ->addChild($product->getName(), array(
+                        'route' => 'product_show',
+                        'routeParameters' => array('slug' => $product->getSlug()),
+                    ))
+                    ->setDisplay(false);
+            }
         }
 
         //How to Buy
