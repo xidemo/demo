@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Table(name="app_category")
- * @ORM\Entity()
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\CategoryRepository")
  */
 class Category
 {
@@ -18,7 +18,7 @@ class Category
      */
     private $id;
     /**
-     * @ORM\Column(name="title", type="string", length=64)
+     * @ORM\Column(name="name", type="string", length=64)
      */
     private $name;
     /**
