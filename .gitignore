@@ -1,5 +1,4 @@
 /web/bundles/
-/web/uploads/
 /app/bootstrap.php.cache
 /app/cache/*
 /app/config/parameters.yml
@@ -16,7 +15,10 @@
 #codeception
 tests/_output/*
 tests/_support/_generated
+#include default test images
+/web/uploads/*
+!/web/uploads/default
 
-#frontend vendor
+#frontend vendor just in case
 /bower_components/
 /node_modules/

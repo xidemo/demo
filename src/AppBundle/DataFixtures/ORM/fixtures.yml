@@ -30,7 +30,13 @@ AppBundle\Entity\Product:
         price: <numberBetween(10, 1000)>
         description: <paragraph()>
         createdAt: <dateTimeThisYear()>
-        stock: <numberBetween(0, 99)>
+        stock: <numberBetween(1, 299)>
+
+AppBundle\Entity\ProductImage:
+    product_image{1..100}:
+        product: '@product_<current()>'
+        file_name: 'default/default_product_<numberBetween(0, 11)>.jpg'
+        createdAt: <dateTimeThisYear()>
 
 Application\Sonata\UserBundle\Entity\User:
     user:
