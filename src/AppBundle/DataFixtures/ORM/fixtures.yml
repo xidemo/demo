@@ -24,7 +24,7 @@ AppBundle\Entity\Category:
 
 AppBundle\Entity\Product:
     product_{1..100}:
-        name: <sentence($nbWords=6)>
+        name: <optronicEquipment()>
         category: '@category*'
         productSolutions: '1x @solution*'
         price: <numberBetween(10, 1000)>
