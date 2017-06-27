@@ -11,8 +11,8 @@ use Doctrine\ORM\Mapping as ORM;
 class ProductImage extends Image
 {
     /**
-     * @ORM\ManyToOne(targetEntity="Product", inversedBy="images")
-     * @ORM\JoinColumn(name="product_id", referencedColumnName="id")
+     * @ORM\ManyToOne(targetEntity="Product", inversedBy="images", cascade={"all"})
+     * @ORM\JoinColumn(name="product_id", referencedColumnName="id", onDelete="CASCADE")
      */
     private $product;
 

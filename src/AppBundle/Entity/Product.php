@@ -38,7 +38,7 @@ class Product
     protected $slug;
     /**
      * @ORM\ManyToOne(targetEntity="Category", inversedBy="products")
-     * @ORM\JoinColumn(nullable=false, onDelete="CASCADE")
+     * @ORM\JoinColumn(nullable=true, onDelete="SET NULL")
      */
     protected $category;
     /**
