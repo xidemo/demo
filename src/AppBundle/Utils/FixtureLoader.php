@@ -17,7 +17,9 @@ class FixtureLoader
     }
 
     /**
-     * TODO: environment control stuck on test
+     * TODO: this hack is no longer needed as fixtures are loaded via dump now
+     * TODO: hack for customised formatter
+     * TODO: fix environment control stuck on test
      * Load default Alice/Faker fixture file
      * @param string $filename
      * @param string $environment
