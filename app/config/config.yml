@@ -50,6 +50,8 @@ doctrine:
         user:     "%database_user%"
         password: "%database_password%"
         charset:  UTF8
+        #server version needed to avoid potential pdo exception
+        server_version: 5.7
         types:
             json: Sonata\Doctrine\Types\JsonType
         # if using pdo_sqlite as your database driver:

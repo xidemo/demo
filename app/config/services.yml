@@ -6,10 +6,6 @@ services:
         class: AppBundle\Utils\FileUploader
         arguments: ["%upload_folder%"]
 
-    app.fixture_loader:
-        class: AppBundle\Utils\FixtureLoader
-        arguments: ["@service_container"]
-
 #   Twig Extension
     app.twig_extension:
         class: AppBundle\Twig\AppExtension
