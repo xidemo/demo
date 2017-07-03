@@ -1,0 +1,10 @@
+<div class="row">
+    {% for product in pagination %}
+        {{ include(':common:_gallery_item.html.twig', {'item': product}) }}
+    {% endfor %}
+</div>
+<div class="row">
+    <div class="col-md-10 col-md-offset-2">
+        {{ knp_pagination_render(pagination) }}
+    </div>
+</div>

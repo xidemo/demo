@@ -4,35 +4,65 @@
     <h1>{{ product.name }}</h1>
 {% endblock %}
 
-{% block main %}
-    <table class="table table-responsive">
-        <tbody>
-            <tr>
-                <th>Description</th>
-                <td>{{ product.description }}</td>
-            </tr>
-            <tr>
-                <th>Price</th>
-                <td>{{ product.price }}</td>
-            </tr>
-            <tr>
-                <th>Image</th>
-                <td> TODO </td>
-            </tr>
-            <tr>
-                <th>Created At</th>
-                <td>{% if product.createdAt %}{{ product.createdAt|date('Y-m-d H:i:s') }}{% endif %}</td>
-            </tr>
-            <tr>
-                <th>Stock</th>
-                <td>{{ product.stock }}</td>
-            </tr>
-        </tbody>
-    </table>
-
-    <ul>
-        <li>
-            <a href="{{ path('category_show', {'slug': product.category.slug }) }}">Back to the category</a>
-        </li>
-    </ul>
+{% block content %}
+    <div class="row">
+        <div class="col-md-8">
+            <img src="{{ asset('uploads/' ~ product.images[0].fileName) }}"
+                 alt="{{ product.name }}"
+                 class="img-responsive img-thumbnail"
+            >
+        </div>
+        <div class="col-md-4">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4>
+                        Price: <span class="fa fa-usd"></span>
+                        {{ product.price }}
+                    </h4>
+                    {% if product.stock > 0 %}
+                        In Stock, can be shipped today!
+                    {% else %}
+                        Please pre-order now!
+                    {% endif %}
+                </div>
+                <div class="panel-body">
+                    <button class="btn btn-default btn-block btn-lg">Add to Cart</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr>
+    <div class="row">
+        <div class="col-md-8">
+            {{ product.description }}
+        </div>
+        <div class="col-md-4">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    Specifications
+                </div>
+                <ul class="list-group">
+                    <li class="list-group-item">Color: Red</li>
+                    <li class="list-group-item">Dimension: {{ product.dimension?product.dimension:random(100) }}</li>
+                    <li class="list-group-item">Released on: {{ product.createdAt|date("m/d/Y") }}</li>
+                    <li class="list-group-item">Suitable Brand: honeywell</li>
+                    <li class="list-group-item">Manufacturer Code: {{ random() }} </li>
+                    <li class="list-group-item">Warranty: {{ random(5) }} years</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <hr>
+    <div class="row">
+        <div class="col-md-12">
+            <h3>Other products that you might be interested:</h3>
+            {#lazy way, best to use a twig extension#}
+            {% for solution in product.solutions %}
+                {% for product in solution.products | slice(1,4) %}
+                    {% include ':common:_gallery_item.html.twig' with {'item': product} only %}
+                {% endfor %}
+            {% endfor %}
+        </div>
+    </div>
+    <hr>
 {% endblock %}

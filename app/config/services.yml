@@ -20,7 +20,8 @@ services:
         arguments: ["@knp_menu.factory", "@doctrine.orm.entity_manager"]
         tags:
             - { name: knp_menu.menu_builder, method: createMainMenu, alias: main_menu }
-            - { name: knp_menu.menu_builder, method: createSubMenuFromEntity, alias: entity_sub_menu }
+            - { name: knp_menu.menu_builder, method: createSideSubMenuForEntity, alias: side_sub_entity }
+            - { name: knp_menu.menu_builder, method: createSideSubMenuForCriteria, alias: side_sub_criteria }
 
 #   Form Field Type Extensions
     app.image_type_extension:

@@ -1,6 +1,6 @@
-{% extends "::base.html.twig" %}
+{% extends "base.html.twig" %}
 
-{% block content %}
+{% block page %}
     <div class="container">
         {% if app.request.hasPreviousSession %}
             {% for type, messages in app.session.flashbag.all() %}
@@ -13,19 +13,23 @@
         {% endif %}
 
         <div class="row">
-            <div class="col-sm-offset-3 col-sm-6">
+            <div class="col-md-offset-3 col-md-6">
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        <h2 class="panel-title">CMS</h2>
+                        <h2 class="panel-title">Welcome to Acme Optronics!</h2>
                     </div>
                     <div class="panel-body">
                         {% block fos_user_content %}{% endblock fos_user_content %}
                     </div>
                     <div class="panel-footer">
-                        &raquo; <a href="{{ path('fos_user_registration_register') }}">How to become a supplier?</a>
+                        &raquo; <a href="#" title="Help Center - Distributors">How to become a distributor?</a>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+{% endblock %}
+
+{% block footer %}
+
 {% endblock %}

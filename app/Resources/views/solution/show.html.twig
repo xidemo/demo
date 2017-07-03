@@ -20,7 +20,7 @@
     <div class="panel panel-default">
         <div class="panel-heading">Related Products</div>
         <ul class="list-group">
-            {% for product in solution.solutionProducts %}
+            {% for product in solution.products %}
                 <div class="list-group-item">
                     <a href="{{ path('product_show', {'slug': product.slug}) }}">
                         {{ product.name }}

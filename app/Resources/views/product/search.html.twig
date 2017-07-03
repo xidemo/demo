@@ -1,0 +1,14 @@
+{% extends ':common:layout.html.twig' %}
+
+{% block page_title %}
+    <h1>Search result for '{{ app.request.query.get('keyword') }}'</h1>
+{% endblock %}
+
+{% block main %}
+    {% if pagination|length > 0 %}
+        {{ include(':common:_gallery_header.html.twig') }}
+        {{ include(':common:_gallery.html.twig') }}
+    {% else %}
+        <h3>Sorry, no product found...</h3>
+    {% endif %}
+{% endblock %}

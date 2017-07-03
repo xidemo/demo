@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block content %}
+{% block page %}
     <div class="container">
         {% include ':common:breadcrumb.html.twig' %}
         <header class="row">
@@ -8,11 +8,13 @@
                 {% block page_title %}{% endblock %}
             </div>
         </header>
-        <nav class="browser-menu row col-md-3 ">
-            {% include ":common:sidebar.html.twig" %}
-        </nav>
-        <main class="col-md-9">
-            {% block main %}{% endblock %}
-        </main>
+        {% block content %}
+            <nav class="browser-menu row col-md-3 ">
+                {% include ":common:sidebar.html.twig" %}
+            </nav>
+            <main class="col-md-9">
+                {% block main %}{% endblock %}
+            </main>
+        {% endblock %}
     </div>
 {% endblock %}

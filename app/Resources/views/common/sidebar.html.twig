@@ -1,14 +1,16 @@
-{% set menu1 = knp_menu_get('entity_sub_menu', [], {entity: 'solution'}) %}
-{% set menu2 = knp_menu_get('entity_sub_menu', [], {entity: 'category'}) %}
-{% set menu3 = knp_menu_get('entity_sub_menu', [], {entity: 'product'}) %}
+{% set menu1 = knp_menu_get('side_sub_entity', [], {entity: 'solution'}) %}
+{% set menu2 = knp_menu_get('side_sub_entity', [], {entity: 'category'}) %}
 
 <div class="panel panel-default">
-    {{ knp_menu_render(menu1) }}
+    <div class="panel-heading side-sub-heading">
+        Solutions
+    </div>
+    {{ knp_menu_render(menu1, {'allow_safe_labels': true}) }}
 </div>
 <div class="panel panel-default">
-    {{ knp_menu_render(menu2) }}
-</div>
-<div class="panel panel-default">
-    {{ knp_menu_render(menu3) }}
+    <div class="panel-heading side-sub-heading">
+        Categories
+    </div>
+    {{ knp_menu_render(menu2, {'allow_safe_labels': true}) }}
 </div>
 

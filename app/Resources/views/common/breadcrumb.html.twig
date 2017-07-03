@@ -1,9 +1,12 @@
-<ul class="breadcrumb margin-none">
-    <i class="fa fa-home"></i>
-    {% for item in get_current_menu_items('main_menu') %}
-        <li>
-            <a href="{{ item.uri }}">{{ item.label }}</a>
-
-        </li>
-    {% endfor %}
-</ul>
+<div class="row">
+    <div class="col-md-12">
+        <ul class="breadcrumb margin-none">
+            <i class="fa fa-home"></i>
+            {% for item in get_current_menu_items('main_menu') %}
+                <li>
+                    <a href="{{ item.uri }}">{{ item.label }}</a>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>

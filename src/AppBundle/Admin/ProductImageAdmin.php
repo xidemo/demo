@@ -51,11 +51,9 @@ class ProductImageAdmin extends AbstractAdmin
                 'width' => 100,
                 'label' => 'Image previews'
             ))
-            ->add('id', 'badge')
             ->add('_action', 'actions', [
                 'actions' => [
                     'show' => [],
-                    'edit' => [],
                     'delete' => [],
                 ]
             ])

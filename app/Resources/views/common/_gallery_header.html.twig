@@ -1,0 +1,49 @@
+<div class="gallery-header">
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                        data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#"><i class="fa fa-tachometer"></i></a>
+            </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                {#number of items per page#}
+                {#<ul class="nav navbar-nav">#}
+                    {#<li class="dropdown">#}
+                        {#<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"#}
+                           {#aria-haspopup="true" aria-expanded="false">#}
+                            {#{{ app.request.query.get('items')? app.request.query.get('items') : 40 }} Per Page#}
+                            {#<span class="caret"></span></a>#}
+                        {#<ul class="dropdown-menu">#}
+                            {#<li><a href="{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')|merge({'items': 40})) }}">40</a></li>#}
+                            {#<li><a href="{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')|merge({'items': 80})) }}">80</a></li>#}
+                            {#<li><a href="{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')|merge({'items': 120})) }}">120</a></li>#}
+                        {#</ul>#}
+                    {#</li>#}
+                {#</ul>#}
+                <ul class="nav navbar-nav">
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
+                           aria-haspopup="true" aria-expanded="false">Sort By <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li>{{ knp_pagination_sortable(pagination, 'Name', 'product.name') }}</li>
+                            <li>{{ knp_pagination_sortable(pagination, 'Price', 'product.price') }}</li>
+                            <li>{{ knp_pagination_sortable(pagination, 'Stock', 'product.stock') }}</li>
+                        </ul>
+                    </li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li><p class="navbar-text">Found {{ pagination.getTotalItemCount }} Products</p></li>
+                </ul>
+            </div><!-- /.navbar-collapse -->
+        </div><!-- /.container-fluid -->
+    </nav>
+</div>

@@ -1,16 +1,17 @@
 <div class="col-md-3 display-item">
     <div class="col-md-12 padding-none">
         <div class="col-md-12 image">
-            {#need fix#}
             {% if item.images is empty %}
                 <a href="{{ path('product_show', {'slug': item.slug}) }}">
                     <img title="{{ item.name }}"
-                         src="{{ asset('images/products/default_product_'~random(15)~'.jpg') }}" width="160" height="120"
+                         src="{{ asset('images/products/default_product_'~random(15)~'.jpg') }}" width="160"
+                         height="120"
                          alt="{{ item.name }}" border="0">
                 </a>
             {% else %}
                 <a href="{{ path('product_show', {'slug': item.slug}) }}">
                     <img title="{{ item.name }}"
+                            {#{{ dump(item.images) }}#}
                          src="{{ asset( 'uploads/'~item.images[0].fileName) }}" width="160" height="120"
                          alt="{{ item.name }}" border="0">
                 </a>
@@ -21,7 +22,11 @@
     <div class="title">
         <a href="{{ path('product_show', {'slug': item.slug}) }}">{{ item.name }}</a>
     </div>
-
+    <div class="tag">
+        {% for solution in item.solutions %}
+            <span class="label label-info">{{ solution.name }}</span>
+        {% endfor %}
+    </div>
     <div class="customer-rating">
         <span data-toggle="tooltip" title="4.7 out of 5 stars (57 ratings)">
             <span class="rating-stars">
@@ -42,10 +47,11 @@
     </div>
 
     <div class="delivery">
-        {% if random(1) == 1 %}
-            <i class="fa fa-check-circle-o text-success"></i>In stock - ships today
+        {% if item.stock > 0 %}
+            <i class="fa fa-check-circle-o text-success fa-fw"></i>In stock - ships today
         {% else %}
-            <i class="fa fa-check-circle-o text-warning"></i>Pre-order
+            <i class="fa fa-check-circle-o text-warning fa-fw"></i>Pre-order now!
         {% endif %}
     </div>
+
 </div>

@@ -2,9 +2,8 @@
 
 namespace AppBundle\Entity;
 
+use AppBundle\SalableInterface;
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\ORM\Event\LifecycleEventArgs;
-use Doctrine\ORM\Event\PreUpdateEventArgs;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -12,7 +11,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Table(name="app_product")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\ProductRepository")
  */
-class Product
+class Product implements SalableInterface
 {
     /**
      * @ORM\Column(type="integer")
@@ -20,6 +19,7 @@ class Product
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     protected $id;
+
     /**
      * @ORM\Column(type="string", length=100)
      *
@@ -27,74 +27,81 @@ class Product
      * @Assert\Length(
      *     min=3,
      *     max=100,
-     *     minMessage="The name must have more than 3 characters.",
-     *     maxMessage="The name must not exceed 100 characters.",
+     *     minMessage="The product name must have more than 3 characters.",
+     *     maxMessage="The product name must not exceed 100 characters.",
      * )
      */
     protected $name;
+
     /**
      * @ORM\Column(type="string", length=255)
      */
     protected $slug;
+
+    /**
+     * @ORM\Column(type="text")
+     *
+     * @Assert\NotBlank(message="Please write something about the product.")
+     * @Assert\Length(
+     *     min=5,
+     *     minMessage="You really should be more descriptive, please add more words!",
+     * )
+     */
+    protected $description;
+
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    protected $createdAt;
+
     /**
      * @ORM\ManyToOne(targetEntity="Category", inversedBy="products")
      * @ORM\JoinColumn(nullable=true, onDelete="SET NULL")
      */
     protected $category;
+
     /**
-     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Solution", inversedBy="solutionProducts")
-     * @ORM\JoinTable(name="products_solutions",
-     *      joinColumns={
-     *          @ORM\JoinColumn(name="solution_id", referencedColumnName="id")
-     *      },
-     *      inverseJoinColumns={
-     *          @ORM\JoinColumn(name="product_id", referencedColumnName="id")
-     *   }
-     * )
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Solution", inversedBy="products")
+     * @ORM\JoinTable(name="product_solution")
      */
-    protected $productSolutions;
-    /**
-     * @ORM\Column(type="decimal", scale=2)
-     */
-    protected $price;
-    /**
-     * @ORM\Column(type="text")
-     */
-    protected $description;
-    /**
-     * @ORM\Column(type="datetime")
-     */
-    protected $createdAt;
-    /**
-     * @ORM\Column(type="integer")
-     */
-    protected $stock;
+    protected $solutions;
+
     /**
      * @ORM\OneToMany(targetEntity="ProductImage", mappedBy="product", cascade={"all"}, orphanRemoval=true)
      * @ORM\OrderBy({"id" = "ASC"})
      */
     protected $images;
 
+    /**
+     * @ORM\Column(type="decimal", scale=2)
+     *
+     * @Assert\NotBlank(message="Please specify the price.")
+     * @Assert\Range(min="0", minMessage="Oops! Price can not be negative.")
+     */
+    protected $price;
+
+    /**
+     * @ORM\Column(type="integer")
+     *
+     * @Assert\NotBlank(message="Please specify the stock level.")
+     * @Assert\Range(min="0", minMessage="Oops! Stock can not be negative.")
+     */
+    protected $stock;
+
+    /**
+     * @ORM\Column(type="string", nullable=true)
+     */
+    protected $dimension;
+
+    /**
+     * @ORM\Column(type="string", unique=true, nullable=true)
+     */
+    protected $upc;
+
     public function __construct()
     {
-        $this->productSolutions = new ArrayCollection();
+        $this->solutions = new ArrayCollection();
         $this->images = new ArrayCollection();
-    }
-
-    /**
-     * @return ArrayCollection|Solution[]
-     */
-    public function getProductSolutions()
-    {
-        return $this->productSolutions;
-    }
-
-    /**
-     * @param Solution $solution
-     */
-    public function addProductSolutions(Solution $solution)
-    {
-        $this->productSolutions[] = $solution;
     }
 
     /**
@@ -154,52 +161,6 @@ class Product
     }
 
     /**
-     * Set category
-     *
-     * @param \AppBundle\Entity\Category $category
-     *
-     * @return Product
-     */
-    public function setCategory(Category $category = null)
-    {
-        $this->category = $category;
-        return $this;
-    }
-
-    /**
-     * Get category
-     *
-     * @return \AppBundle\Entity\Category
-     */
-    public function getCategory()
-    {
-        return $this->category;
-    }
-
-    /**
-     * Set price
-     *
-     * @param string $price
-     *
-     * @return Product
-     */
-    public function setPrice($price)
-    {
-        $this->price = $price;
-        return $this;
-    }
-
-    /**
-     * Get price
-     *
-     * @return string
-     */
-    public function getPrice()
-    {
-        return $this->price;
-    }
-
-    /**
      * Set description
      *
      * @param string $description
@@ -246,33 +207,58 @@ class Product
     }
 
     /**
-     * Set stock
+     * Get category
      *
-     * @param integer $stock
+     * @return \AppBundle\Entity\Category
+     */
+    public function getCategory()
+    {
+        return $this->category;
+    }
+
+    /**
+     * Set category
+     *
+     * @param \AppBundle\Entity\Category $category
      *
      * @return Product
      */
-    public function setStock($stock)
+    public function setCategory(Category $category = null)
     {
-        $this->stock = $stock;
+        $this->category = $category;
         return $this;
     }
 
     /**
-     * Get stock
-     *
-     * @return integer
+     * @return ArrayCollection|Solution[]
      */
-    public function getStock()
+    public function getSolutions()
     {
-        return $this->stock;
+        return $this->solutions;
     }
 
+    /**
+     * @param Solution $solution
+     */
+    public function addSolution(Solution $solution)
+    {
+        $this->solutions[] = $solution;
+    }
+
+    /**
+     * Get images
+     *
+     * @return ArrayCollection|ProductImage[]
+     */
+    public function getImages()
+    {
+        return $this->images;
+    }
 
     /**
      * Set images
      *
-     * @param ArrayCollection $images
+     * @param ArrayCollection|ProductImage[]
      *
      * @return Product
      */
@@ -299,13 +285,81 @@ class Product
     }
 
     /**
-     * Get images
+     * Get price
      *
-     * @return ArrayCollection
+     * @return string
      */
-    public function getImages()
+    public function getPrice()
     {
-        return $this->images;
+        return $this->price;
+    }
+
+    /**
+     * Set price
+     *
+     * @param string $price
+     *
+     * @return Product
+     */
+    public function setPrice($price)
+    {
+        $this->price = $price;
+        return $this;
+    }
+
+    /**
+     * Get stock
+     *
+     * @return integer
+     */
+    public function getStock()
+    {
+        return $this->stock;
+    }
+
+    /**
+     * Set stock
+     *
+     * @param integer $stock
+     *
+     * @return Product
+     */
+    public function setStock($stock)
+    {
+        $this->stock = $stock;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDimension()
+    {
+        return $this->dimension;
+    }
+
+    /**
+     * @param string
+     */
+    public function setDimension($dimension)
+    {
+        $this->dimension = $dimension;
+    }
+
+    /**
+     * @return integer
+     */
+    public function getUpc()
+    {
+        return $this->upc;
+    }
+
+    /**
+     * @param integer
+     */
+    public function setUpc($upc)
+    {
+        $this->upc = $upc;
     }
 
     public function __toString()

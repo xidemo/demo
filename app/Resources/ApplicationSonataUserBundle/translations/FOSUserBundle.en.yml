@@ -14,7 +14,7 @@ group:
 # Security
 security:
     login:
-        username: Username
+        username: Email or Username
         password: Password
         remember_me: Remember me
         submit: Log in
@@ -77,10 +77,10 @@ resetting:
 
 # Global strings
 layout:
-    logout: Log out
-    login: Log in
+    logout: Log Out
+    login: Log In
     register: Register
-    logged_in_as: Logged in as %username%
+    logged_in_as: Hello %username%!
 
 # Form field labels
 form:

@@ -7,6 +7,7 @@ use AppBundle\Repository\ProductRepository;
 use Doctrine\ORM\EntityManager;
 use Knp\Menu\FactoryInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class MenuBuilder
 {
@@ -28,7 +29,7 @@ class MenuBuilder
 
     public function createMainMenu(array $options)
     {
-        $menu = $this->factory->createItem('Home');
+        $menu = $this->factory->createItem('Home')->setExtra('translation_domain', false);
         $menu->setUri('/');
         $menu->setChildrenAttribute('class', 'nav navbar-nav navbar-left');
 
@@ -49,7 +50,7 @@ class MenuBuilder
         }
 
         //Products
-        $menu->addChild('Product', array('route' => 'category_list'));
+        $menu->addChild('Product', array('route' => 'product_list'));
         $menu['Product']->setChildrenAttribute('class', 'dropdown-menu');
         $menu['Product']->setLinkAttributes(array(
             'href' => 'self',
@@ -64,14 +65,15 @@ class MenuBuilder
             ));
             //Prepare products only for breadcrumb
             /** @var Product[] $products */
-            $products = $this->em->getRepository('AppBundle:Product')->findAllProductsByCategory($category->getId());
+            $products = $this->em->getRepository('AppBundle:Product')->findAllProductsByCategory($category);
             foreach ($products as $product) {
                 $menu['Product'][$category->getName()]
                     ->addChild($product->getName(), array(
                         'route' => 'product_show',
                         'routeParameters' => array('slug' => $product->getSlug()),
                     ))
-                    ->setDisplay(false);
+                    ->setDisplay(false)
+                ;
             }
         }
 
@@ -83,8 +85,8 @@ class MenuBuilder
             'class' => 'dropdown-toggle',
             'data-toggle' => 'dropdown'
         ));
-        $menu['Buy']->addChild('Individual', array('route' => 'admin_category_list',));
-        $menu['Buy']->addChild('Corporate', array('route' => 'fos_user_profile_show',));
+        $menu['Buy']->addChild('Individual', array('uri' =>'#'));
+        $menu['Buy']->addChild('Corporate', array('uri' =>'#'));
 
 
         $menu->addChild('Media', array('uri' => '#'));
@@ -93,13 +95,10 @@ class MenuBuilder
         return $menu;
     }
 
-    public function createSubMenuFromEntity(array $options)
+    public function createSideSubMenuForEntity(array $options)
     {
-        $menu = $this->factory->createItem('entity_sub_menu')
-            ->setChildrenAttribute(
-                'class',
-                'nav nav-pills .nav-stacked'
-            );
+        $menu = $this->factory->createItem('side_sub_entity')
+            ->setChildrenAttribute('class', 'list-group');
 
         if (isset($options['entity']) && $options['entity']) {
             $entityName = $options['entity'];
@@ -109,21 +108,40 @@ class MenuBuilder
 
         $items = $this->em->getRepository('AppBundle:' . $entityName)->findAll();
 
-//        $menu->addChild($entity)
-//             ->setAttribute('class', 'panel-head');//, array('route' => $entity . '_list'));
-//        $menu[$entity]->setChildrenAttribute('class', 'list-group');
+        if (!$items) {
+            throw new NotFoundHttpException('entity not found in DB');
+        }
+
         foreach ($items as $item) {
             $menu
                 ->addChild($item->getName(), array(
                     'route' => $entityName . '_show',
-                    'routeParameters' => array('slug' => $item->getSlug()),
-                ));
-//                ->setAttribute(
-//                    'class', 'list-group-item'
-//                );
+                    'routeParameters' => array(
+                        'slug' => $item->getSlug()
+                    ),
+                    'label' => "<i class='fa fa-angle-right'></i> " . $item->getName(),
+                    'extras' => array(
+                        'safe_label' => true
+                    ),
+                ))
+                ->setAttribute('class', 'list-group-item side-sub-item')
+                ->setExtra('translation_domain', false)
+            ;
         }
 
         return $menu;
+    }
+
+    public function createSideSubMenuForCriteria(array $options)
+    {
+        $menu = $this->factory->createItem('side_sub_criteria')
+            ->setChildrenAttribute('class', 'list-group');
+
+        foreach ($options as $option) {
+            $menu->addChild(ucfirst($option), array(
+                'route' => 'product_' . $option
+            ));
+        }
     }
 
 }

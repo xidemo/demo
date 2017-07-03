@@ -32,7 +32,7 @@ class SolutionAdmin extends AbstractAdmin
                     'rows' => '10'
                 )
             ))
-            ->add('solutionProducts')
+            ->add('products')
         ;
     }
 

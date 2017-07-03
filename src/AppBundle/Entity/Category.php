@@ -26,7 +26,7 @@ class Category
      */
     private $slug;
     /**
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Product", mappedBy="category")
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Product", mappedBy="category", fetch="EXTRA_LAZY")
      * @ORM\OrderBy({"createdAt"="DESC"})
      */
     private $products;

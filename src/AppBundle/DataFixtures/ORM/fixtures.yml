@@ -23,25 +23,25 @@ AppBundle\Entity\Category:
         name: Intelligent Light Sources
 
 AppBundle\Entity\Product:
-    product_{1..100}:
-        name: <optronicEquipment()>
+    product_{1..1000}:
+        name: <optronicEquipment()> <word()>
+        description: <paragraphs($nb = 9, $asText = true)>
         category: '@category*'
-        productSolutions: '1x @solution*'
-        price: <numberBetween(10, 1000)>
-        description: <paragraph()>
+        solutions: '<numberBetween(1,4)>x @solution*'
         createdAt: <dateTimeThisYear()>
-        stock: <numberBetween(1, 299)>
+        price: <randomFloat(2, 10, 1000)>
+        stock: 90%? <numberBetween(1, 299)> : 0
 
 AppBundle\Entity\ProductImage:
-    product_image{1..100}:
+    product_image{1..1000}:
         product: '@product_<current()>'
-        file_name: 'default/default_product_<numberBetween(0, 11)>.jpg'
+        file_name: 'default/default_product_<numberBetween(0, 19)>.jpg'
         createdAt: <dateTimeThisYear()>
 
 Application\Sonata\UserBundle\Entity\User:
     user:
         username: tom
-        email: t@t.net
+        email: tom@greenxi.net
         enabled: true
         plainPassword: tom
         # salt must be null for bcrpt
@@ -49,7 +49,7 @@ Application\Sonata\UserBundle\Entity\User:
         roles: ["ROLE_USER"]
     content_staff:
         username: lili
-        email: l@l.net
+        email: lili@greenxi.net
         enabled: true
         plainPassword: lili
         # salt must be null for bcrpt
@@ -57,7 +57,7 @@ Application\Sonata\UserBundle\Entity\User:
         roles: ["ROLE_CONTENT_STAFF"]
     content_admin:
         username: alice
-        email: a@a.net
+        email: alice@greenxi.net
         enabled: true
         plainPassword: alice
         # salt must be null for bcrpt
@@ -65,7 +65,7 @@ Application\Sonata\UserBundle\Entity\User:
         roles: ["ROLE_CONTENT_ADMIN"]
     superadmin:
         username: ryan
-        email: s@s.net
+        email: ryan@greenxi.net
         enabled: true
         plainPassword: ryan
         # salt must be null for bcrpt

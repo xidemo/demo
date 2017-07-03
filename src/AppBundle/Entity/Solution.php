@@ -44,13 +44,13 @@ class Solution
     /**
      * @var ArrayCollection|Product[]
      *
-     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Product", mappedBy="productSolutions")
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Product", mappedBy="solutions", fetch="EXTRA_LAZY")
      */
-    private $solutionProducts;
+    private $products;
 
     public function __construct()
     {
-        $this->solutionProducts = new ArrayCollection();
+        $this->products = new ArrayCollection();
     }
 
     /**
@@ -114,9 +114,9 @@ class Solution
     /**
      * @return Product[]|ArrayCollection
      */
-    public function getSolutionProducts()
+    public function getProducts()
     {
-        return $this->solutionProducts;
+        return $this->products;
     }
 
     /**
