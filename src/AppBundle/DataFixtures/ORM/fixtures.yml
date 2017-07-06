@@ -23,7 +23,7 @@ AppBundle\Entity\Category:
         name: Intelligent Light Sources
 
 AppBundle\Entity\Product:
-    product_{1..1000}:
+    product_{1..200}:
         name: <optronicEquipment()> <word()>
         description: <paragraphs($nb = 9, $asText = true)>
         category: '@category*'
@@ -33,7 +33,7 @@ AppBundle\Entity\Product:
         stock: 90%? <numberBetween(1, 299)> : 0
 
 AppBundle\Entity\ProductImage:
-    product_image{1..1000}:
+    product_image{1..200}:
         product: '@product_<current()>'
         file_name: 'default/default_product_<numberBetween(0, 19)>.jpg'
         createdAt: <dateTimeThisYear()>

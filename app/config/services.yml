@@ -6,14 +6,6 @@ services:
         class: AppBundle\Utils\FileUploader
         arguments: ["%upload_folder%"]
 
-#   Twig Extension
-    app.twig_extension:
-        class: AppBundle\Twig\AppExtension
-        autowire: true
-        public: false
-        tags:
-            - { name: twig.extension }
-
 #   Menu Builders
     app.menu_builder:
         class: AppBundle\Menu\MenuBuilder

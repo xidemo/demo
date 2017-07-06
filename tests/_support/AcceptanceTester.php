@@ -47,7 +47,7 @@ class AcceptanceTester extends \Codeception\Actor
 
     public function clickCellLink($text)
     {
-        $this->click('//td[a[contains("' . $text . '",text())]]/a');
+        $this->click('//td[a[contains(text(), "alice")]]/a');
     }
 
     public function getCheckBoxByValue($value)

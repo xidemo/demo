@@ -98,7 +98,6 @@ PRICE_FIELD_HELP;
         $listMapper
             ->add('category.name')
             ->addIdentifier('name')
-            ->add('description')
             ->add('price', 'currency', [
                 'currency' => 'nz$'
             ])
@@ -111,7 +110,6 @@ PRICE_FIELD_HELP;
             ])
             ->add('_action', 'actions', [
                 'actions' => [
-                    'show' => [],
                     'edit' => [],
                     'delete' => [],
                 ]

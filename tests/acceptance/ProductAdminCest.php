@@ -41,7 +41,7 @@ class ProductAdminCest
         $I->click('Create and return to list');
         $I->waitForText('Item "Fancy Product" has been successfully created.');
         $I->click('//a[@title="Last"]');
-        $I->waitForElement('//a[text()="Fancy Product"]');
+        $I->waitForElement('//a[contains(text(), "Fancy Product")]');
 
         //Update 'Fancy Product' to 'Great Product'
         $I->click($I->getEditButton('Fancy Product'));
@@ -51,7 +51,7 @@ class ProductAdminCest
         $I->click('Update and close');
         $I->waitForText('Item "Great Product" has been successfully updated.');
         $I->click('//a[@title="Last"]');
-        $I->waitForElement('//a[text()="Great Product"]');
+        $I->waitForElement('//a[contains(text(), "Great Product")]');
 
         //Delete 'Shiny Dog'
         $I->click($I->getDeleteButton('Great Product'));

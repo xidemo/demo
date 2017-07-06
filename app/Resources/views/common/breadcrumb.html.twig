@@ -1,11 +1,16 @@
 <div class="row">
     <div class="col-md-12">
         <ul class="breadcrumb margin-none">
-            <i class="fa fa-home"></i>
-            {% for item in get_current_menu_items('main_menu') %}
-                <li>
-                    <a href="{{ item.uri }}">{{ item.label }}</a>
-                </li>
+            {% set item = knp_menu_get_current_item('main_menu') %}
+            {% set breadcrumbs = knp_menu_get_breadcrumbs_array(item) %}
+            {% for breadcrumb in breadcrumbs %}
+                {% if breadcrumb.label == 'Home' %}
+                    <a href="{{ path('homepage') }}"><span class="fa fa-home"></span></a>
+                    <a href="{{ breadcrumb.uri }}">{{ breadcrumb.label }}</a>
+                {% else %}
+                    <span class="fa fa-angle-right fa-fw"></span>
+                    <a href="{{ breadcrumb.uri }}">{{ breadcrumb.label }}</a>
+                {% endif %}
             {% endfor %}
         </ul>
     </div>

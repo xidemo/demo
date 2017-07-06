@@ -18,7 +18,7 @@ use AppBundle\Form\ProductType;
 class ProductController extends Controller
 {
     /**
-     * @Rest\Route("/", name="product_list")
+     * @Route("/", name="product_list")
      * @Method("GET")
      *
      * @param Request $request
