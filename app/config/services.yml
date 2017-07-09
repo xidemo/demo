@@ -34,6 +34,11 @@ services:
         tags:
             - { name: doctrine.event_subscriber }
 
+    app.doctrine.order_entity_listener:
+        class: AppBundle\Doctrine\OrderEntityListener
+        tags:
+            - { name: doctrine.event_subscriber }
+
 #    Sonata Admin services
     app.admin.solution:
             class: AppBundle\Admin\SolutionAdmin
