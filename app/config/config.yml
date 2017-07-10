@@ -9,6 +9,9 @@ imports:
 parameters:
     locale: en
     upload_folder: "%kernel.root_dir%/../web/uploads"
+    # a hack from knpu - should be configurable under jms_serializer, but the property_naming.id
+    # doesn't seem to be taken into account at all.
+    jms_serializer.camel_case_naming_strategy.class: JMS\Serializer\Naming\IdenticalPropertyNamingStrategy
 
 framework:
     #esi:             ~
@@ -73,3 +76,4 @@ swiftmailer:
     username:  "%mailer_user%"
     password:  "%mailer_password%"
     spool:     { type: memory }
+

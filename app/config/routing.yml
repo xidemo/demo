@@ -1,6 +1,12 @@
-app:
+app_web:
     resource: "@AppBundle/Controller/"
     type:     annotation
+
+app_api:
+    resource: "@AppBundle/Controller/Api"
+    type:     annotation
+    defaults:
+        _format: json
 
 admin:
     resource: '@SonataAdminBundle/Resources/config/routing/sonata_admin.xml'

@@ -1433,16 +1433,16 @@
         },
         {
             "name": "jms/serializer",
-            "version": "1.7.1",
+            "version": "1.8.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/schmittjoh/serializer.git",
-                "reference": "4fad8bbbe76e05de3b79ffa3db027058ed3813ff"
+                "reference": "020f2a221880fba6485ca428f405846279a0470f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/schmittjoh/serializer/zipball/4fad8bbbe76e05de3b79ffa3db027058ed3813ff",
-                "reference": "4fad8bbbe76e05de3b79ffa3db027058ed3813ff",
+                "url": "https://api.github.com/repos/schmittjoh/serializer/zipball/020f2a221880fba6485ca428f405846279a0470f",
+                "reference": "020f2a221880fba6485ca428f405846279a0470f",
                 "shasum": ""
             },
             "require": {
@@ -1485,8 +1485,8 @@
                 }
             },
             "autoload": {
-                "psr-0": {
-                    "JMS\\Serializer": "src/"
+                "psr-4": {
+                    "JMS\\Serializer\\": "src/"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -1494,6 +1494,10 @@
                 "Apache-2.0"
             ],
             "authors": [
+                {
+                    "name": "Asmir Mustafic",
+                    "email": "goetas@gmail.com"
+                },
                 {
                     "name": "Johannes M. Schmitt",
                     "email": "schmittjoh@gmail.com"
@@ -1508,7 +1512,7 @@
                 "serialization",
                 "xml"
             ],
-            "time": "2017-05-15 08:35:42"
+            "time": "2017-07-12 06:03:24"
         },
         {
             "name": "jms/serializer-bundle",

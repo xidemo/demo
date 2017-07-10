@@ -222,4 +222,9 @@ class Order implements OrderInterface
         // TODO: Implement calculateAdjustments() method.
     }
 
+    public function __toString()
+    {
+        return (string)$this->orderNumber;
+    }
+
 }

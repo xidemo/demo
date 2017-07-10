@@ -21,6 +21,13 @@ services:
         tags:
             - { name: form.type_extension, extended_type: Symfony\Component\Form\Extension\Core\Type\FileType }
 
+#   Kernel Listeners
+    api_problem_subscriber:
+        class: AppBundle\EventListener\ApiExceptionSubscriber
+        arguments: ["%kernel.debug%", "@logger"]
+        tags:
+            - { name: kernel.event_subscriber }
+
 #   Doctrine Listeners
     app.doctrine.entity_slugify_listener:
         class: AppBundle\Doctrine\EntitySlugifyListener

@@ -1,10 +1,15 @@
 <?php
+
 namespace AppBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation as Serializer;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
+ * @Serializer\ExclusionPolicy("all")
+ *
  * @ORM\Table(name="app_order_item")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\OrderItemRepository")
  */
@@ -18,16 +23,22 @@ class OrderItem
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Order", inversedBy="items", cascade={"persist", "remove"})
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Order", inversedBy="items", cascade={"persist"})
      */
     private $order;
 
     /**
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Product")
+     * @Assert\NotBlank(message="Please enter a product id")
+     *
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Product", fetch="EXTRA_LAZY")
      */
     private $product;
 
     /**
+     * @Serializer\Expose()
+     *
+     * @Assert\GreaterThanOrEqual(0)
+     *
      * @ORM\Column(type="integer")
      */
     private $quantity;
@@ -95,5 +106,23 @@ class OrderItem
     public function setQuantity($quantity = 0)
     {
         $this->quantity = $quantity;
+    }
+
+    /**
+     * @Serializer\VirtualProperty()
+     * @Serializer\SerializedName("orderId")
+     */
+    public function getSerializedOrderId()
+    {
+        return $this->getOrder()->getId();
+    }
+
+    /**
+     * @Serializer\VirtualProperty()
+     * @Serializer\SerializedName("productId")
+     */
+    public function getSerializedProductId()
+    {
+        return $this->getProduct()->getId();
     }
 }

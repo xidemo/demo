@@ -19,7 +19,7 @@ class OrderEntityListener implements EventSubscriber
             throw new InvalidArgumentException('required session missing');
         }
 
-        $order->setOrderNumber(substr($order->getSession(), 0, 11));
+        $order->setOrderNumber(strtoupper(substr($order->getSession(), 0, 8)));
         $order->setPlacedAt(new \DateTime());
     }
 
