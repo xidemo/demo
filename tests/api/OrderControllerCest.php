@@ -80,7 +80,7 @@ class OrderControllerCest
         $I->canSeeHttpHeader('Content-Type', 'application/json');
         $I->canSeeResponseIsJson();
         $I->canSeeResponseContainsJson([
-            'order_items' => [
+            'items' => [
                 'productId' => 1,
                 'quantity' => 10
             ]
@@ -97,26 +97,54 @@ class OrderControllerCest
         $I->canSeeHttpHeader('Content-Type', 'application/json');
         $I->canSeeResponseIsJson();
         $I->canSeeResponseContainsJson([
-            'order_items' => [
+            'items' => [
                 'productId' => 9,
             ]
         ]);
-//        $I->canSeeResponseContainsJson([
-//                'count' => 10,
-//        ]);
-//        $I->canSeeResponseContainsJson([
-//                'total' => 25,
-//        ]);
-//        $I->canSeeResponseContainsJson([
-//            '_links' => [
-//                'next'
-//            ]
-//        ]);
-//        $I->cantSeeResponseContainsJson([
-//            'order_items' => [
-//                'productId' => 11,
-//            ]
-//        ]);
+        $I->canSeeResponseContainsJson([
+            'count' => 10,
+        ]);
+        $I->canSeeResponseContainsJson([
+            'total' => 51,
+        ]);
+        //check for valid structure
+        $I->canSeeResponseJsonMatchesJsonPath('$._links.self');
+        $I->canSeeResponseJsonMatchesJsonPath('$._links.first');
+        $I->canSeeResponseJsonMatchesJsonPath('$._links.last');
+        $I->canSeeResponseJsonMatchesJsonPath('$.items');
+        $I->cantSeeResponseContainsJson([
+            'items' => [
+                'productId' => 11,
+            ]
+        ]);
+    }
+
+    //filter stub
+    public function listAllOrderItemsPaginatedWithFilterTest(ApiTester $I)
+    {
+        $I->wantTo('search|filter all order items with low stock');
+        $I->sendGET('/api/order/' . $this->orderNumber . '?maxstock=5');
+
+        $I->canSeeResponseCodeIs(\Codeception\Util\HttpCode::OK);
+        $I->canSeeHttpHeader('Content-Type', 'application/json');
+        //check for valid structure
+        $I->canSeeResponseJsonMatchesJsonPath('$._links.self');
+        $I->canSeeResponseJsonMatchesJsonPath('$._links.first');
+        $I->canSeeResponseJsonMatchesJsonPath('$._links.last');
+        $I->canSeeResponseJsonMatchesJsonPath('$.items');
+        $I->canSeeResponseJsonMatchesJsonPath('$.count');
+        $I->canSeeResponseJsonMatchesJsonPath('$.total');
+        //check for filtered result
+        $I->canSeeResponseContainsJson([
+            'items' => [
+                'quantity' => 5,
+            ]
+        ]);
+        $I->cantSeeResponseContainsJson([
+            'items' => [
+                'quantity' => 6,
+            ]
+        ]);
     }
 
     //modify a order item quantity using PUT

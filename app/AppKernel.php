@@ -28,6 +28,7 @@ class AppKernel extends Kernel
             new \Application\Sonata\UserBundle\ApplicationSonataUserBundle(),
             new \Doctrine\Bundle\MigrationsBundle\DoctrineMigrationsBundle(),
             new \JMS\SerializerBundle\JMSSerializerBundle(),
+            new \WhiteOctober\PagerfantaBundle\WhiteOctoberPagerfantaBundle(),
 //            new \FOS\RestBundle\FOSRestBundle(),
         );
 

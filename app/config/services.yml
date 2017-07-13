@@ -6,6 +6,10 @@ services:
         class: AppBundle\Utils\FileUploader
         arguments: ["%upload_folder%"]
 
+    app.pagination_factory:
+        class: AppBundle\Pagination\PaginationFactory
+        arguments: ["@router"]
+
 #   Menu Builders
     app.menu_builder:
         class: AppBundle\Menu\MenuBuilder

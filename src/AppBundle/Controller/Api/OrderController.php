@@ -4,6 +4,11 @@ namespace AppBundle\Controller\Api;
 
 use AppBundle\Entity\Order;
 use AppBundle\Form\OrderItemType;
+use AppBundle\Pagination\PaginatedCollection;
+use AppBundle\Pagination\PaginationFactory;
+use function foo\func;
+use Pagerfanta\Adapter\DoctrineORMAdapter;
+use Pagerfanta\Pagerfanta;
 use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -73,18 +78,35 @@ class OrderController extends ApiBaseController
     }
 
     /**
-     * @Route("/api/order/{orderNumber}", name="get_order_items")
+     * @Route("/api/order/{orderNumber}", name="get_order_item_collection")
      * @Method("GET")
      */
     public function listAllOrderItemsAction(Request $request)
     {
-        $items = $this->getDoctrine()
+        $page = $request->query->get('page', 1);
+        $filter = $request->query->get('maxstock');
+
+        $qb = $this->getDoctrine()
             ->getRepository(OrderItem::class)
-            ->findAll();
+            ->findAllWithFilterQueryBuilder($filter);
 
-        $data = ['order_items' => $items];
+        $adapter = new DoctrineORMAdapter($qb);
+        $pf = new Pagerfanta($adapter);
+        $pf->setMaxPerPage(10);
+        $pf->setCurrentPage($page);
 
-        return $this->createApiResponse($data);
+        $items = [];
+        foreach ($pf->getCurrentPageResults() as $item) {
+            $items[] = $item;
+        }
+
+        $route = 'get_order_item_collection';
+        $routeParam = ['orderNumber' => $request->attributes->get('orderNumber')];
+        $paginatedCollection = $this->get('app.pagination_factory')->createCollection($qb, $request, $route, $routeParam);
+
+        $response = $this->createApiResponse($paginatedCollection);
+
+        return $response;
     }
 
     /**
