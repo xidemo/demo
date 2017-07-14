@@ -4,15 +4,13 @@ namespace AppBundle\Controller\Api;
 
 use AppBundle\Api\ApiProblem;
 use AppBundle\Api\ApiProblemException;
-use AppBundle\Entity\Order;
+use Application\Sonata\UserBundle\Entity\User;
 use JMS\Serializer\SerializationContext;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\FormInterface;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\Session\Session;
-use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
+use Symfony\Component\Security\Core\Exception\BadCredentialsException;
 
 class ApiBaseController extends Controller
 {
@@ -64,37 +62,6 @@ class ApiBaseController extends Controller
         return $errors;
     }
 
-    protected function findOrderOrCartForUser(Request $request)
-    {
-        if ($request->getSession()->getId()) {
-            $sid = $request->getSession()->getId();
-        } else {
-            $session = new Session();
-            $session->start();
-            $sid = $session->getId();
-        }
-
-        return $this->getOrderOrCartBySessionOrNew($sid);
-    }
-
-    protected function getOrderOrCartBySessionOrNew($sid)
-    {
-        $order = $this->getDoctrine()->getRepository('AppBundle:Order')->findOneBy(['session' => $sid]);
-        if (!$order || $order->getState() === ORDER::STATE_COMPLETED) {
-            $order = new Order();
-            $order->setSession($sid);
-            //TODO fix fake auth & idempotency
-            $user = $this->get('sonata.user.manager.user')->findOneBy(['username' => 'ryan']);
-            $order->setUser($user);
-
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($order);
-            $em->flush();
-        }
-
-        return $order;
-    }
-
     protected function serialize($data)
     {
         $context = new SerializationContext();
@@ -104,5 +71,36 @@ class ApiBaseController extends Controller
         $serializer = $this->container->get('jms_serializer');
 
         return $serializer->serialize($data, 'json', $context);
+    }
+
+    protected function decodeUser(Request $request)
+    {
+        $string = trim(substr($request->headers->get('Authorization'), 6));
+
+        if (!$string) {
+            throw new BadCredentialsException('how did you end up in here??!!');
+        }
+
+        $data = $this->get('lexik_jwt_authentication.encoder')->decode($string);
+
+        if (!$data) {
+            throw new BadCredentialsException('it is all just about the bad token given!');
+        }
+
+        //not checking for email as this is a demo only and no ssl used
+        $user = $this->getDoctrine()->getRepository(User::class)
+                ->findOneBy(['username' => $data['username']]);
+
+        if (!$user) {
+            throw new BadCredentialsException('no user found');
+        }
+
+        return $user;
+    }
+
+    //name holder for random unique string for generating order number in api
+    protected function getOrderSession()
+    {
+        return str_replace(str_split('\\/:*?"<>|=+'), random_int(1, 9), base64_encode(random_bytes(8)));
     }
 }

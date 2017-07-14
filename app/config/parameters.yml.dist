@@ -17,3 +17,7 @@ parameters:
 
     # A secret key that's used to generate certain security-related tokens
     secret:            ThisTokenIsNotSoSecretChangeIt
+
+    #IMPORTANT: should never show here in production - except this is for demonstration purposes
+    #jwt pass phrase for demo project, set default with ~
+    jwt_key_pass_phrase: awesomedev

@@ -2,10 +2,13 @@
 
 namespace AppBundle\Entity;
 
+use JMS\Serializer\Annotation as Serializer;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
+ * @Serializer\ExclusionPolicy("all")
+ *
  * @ORM\Table(name="app_order")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\OrderRepository")
  */
@@ -19,6 +22,8 @@ class Order implements OrderInterface
     private $id;
 
     /**
+     * @Serializer\Expose()
+     *
      * @ORM\Column(type="string", unique=true)
      */
     private $orderNumber;
@@ -39,16 +44,22 @@ class Order implements OrderInterface
     private $items;
 
     /**
+     * @Serializer\Expose()
+     *
      * @ORM\Column(type="datetime")
      */
     private $placedAt;
 
     /**
+     * @Serializer\Expose()
+     *
      * @ORM\Column(type="text", nullable=true)
      */
     private $note;
 
     /**
+     * @Serializer\Expose()
+     *
      * @ORM\Column(type="string")
      */
     private $state = self::STATE_CART;
@@ -227,4 +238,21 @@ class Order implements OrderInterface
         return (string)$this->orderNumber;
     }
 
+    /**
+     * @Serializer\VirtualProperty()
+     * @Serializer\SerializedName("user")
+     */
+    public function getSerializedOrder()
+    {
+        return $this->getUser()->getId();
+    }
+
+    /**
+     * @Serializer\VirtualProperty()
+     * @Serializer\SerializedName("items")
+     */
+    public function getSerializedItems()
+    {
+        return $this->getItems();
+    }
 }

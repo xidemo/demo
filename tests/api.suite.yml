@@ -3,5 +3,12 @@ modules:
     enabled:
         - REST:
             url: 'http://localhost:8000/app_test.php'
-            depends: PhpBrowser
+            depends:
+                - PhpBrowser
+                - Symfony
+        - Doctrine2:
+            depends: Symfony
+        - \Helper\Api
         - Db  # auto loading fixtures
+
+

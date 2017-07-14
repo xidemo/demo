@@ -28,7 +28,7 @@ class OrderItem
     private $order;
 
     /**
-     * @Assert\NotBlank(message="Please enter a product id")
+     * @Assert\NotBlank(message="Product needed")
      *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Product", fetch="EXTRA_LAZY")
      */
@@ -37,7 +37,7 @@ class OrderItem
     /**
      * @Serializer\Expose()
      *
-     * @Assert\GreaterThanOrEqual(0)
+     * @Assert\GreaterThanOrEqual(0, message="Quantity can not be negative")
      *
      * @ORM\Column(type="integer")
      */
@@ -110,7 +110,7 @@ class OrderItem
 
     /**
      * @Serializer\VirtualProperty()
-     * @Serializer\SerializedName("orderId")
+     * @Serializer\SerializedName("order")
      */
     public function getSerializedOrderId()
     {
@@ -119,7 +119,7 @@ class OrderItem
 
     /**
      * @Serializer\VirtualProperty()
-     * @Serializer\SerializedName("productId")
+     * @Serializer\SerializedName("product")
      */
     public function getSerializedProductId()
     {

@@ -1,7 +1,7 @@
 security:
     providers:
-         fos_userbundle:
-             id: fos_user.user_provider.username_email
+        fos_userbundle:
+            id: fos_user.user_provider.username_email
 
     encoders:
         FOS\UserBundle\Model\UserInterface: bcrypt
@@ -10,8 +10,13 @@ security:
         connection: default
 
     firewalls:
-        # TODO: refactor to only one firewall, app specific
-        # Admin login area
+        api:
+            pattern:            ^/api/
+            anonymous:          true
+            stateless:          true
+            guard:
+                authenticators:
+                    - lexik_jwt_authentication.jwt_token_authenticator
         admin:
             pattern:            /admin(.*)
             context:            user
@@ -26,7 +31,6 @@ security:
                 path:           /admin/logout
                 target:         /admin/login
             anonymous:          true
-        # default login area for standard users
         main:
             pattern:             .*
             context:             user
@@ -47,6 +51,10 @@ security:
         # AsseticBundle paths used when using the controller for assets
         - { path: ^/js/, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/css/, role: IS_AUTHENTICATED_ANONYMOUSLY }
+
+        # Api endpoints
+#        - { path: ^/api/order$, role: ROLE_SUPER_ADMIN }
+#        - { path: ^/api/token$, role: IS_AUTHENTICATED_ANONYMOUSLY }
 
         # URL of FOSUserBundle which need to be available to anonymous users
         - { path: ^/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }
