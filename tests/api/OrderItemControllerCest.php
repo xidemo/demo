@@ -23,17 +23,18 @@ class OrderItemControllerCest
     {
         $I->wantTo('add order item');
         $this->orderNumber = $I->createNewOrder();
-        $I->haveHttpHeader('Content-Type', 'application/json');
-        $I->haveHttpHeader('Accept', 'application/json');
+        $I->haveHttpHeader('Content-Type', 'application/hal+json');
+        $I->haveHttpHeader('Accept', 'application/hal+json');
         $I->sendPOST('/api/orders/mine/' . $this->orderNumber, $this->payload);
 
         $I->canSeeResponseCodeIs(\Codeception\Util\HttpCode::CREATED);
-        $I->canSeeHttpHeader('Content-Type', 'application/json');
+        $I->canSeeHttpHeader('Content-Type', 'application/hal+json');
         $I->canSeeHttpHeader('Location', '/api/orders/mine/' . $this->orderNumber . '/1');
         $I->canSeeResponseContainsJson([
             'product' => 1,
             'quantity' => 10
         ]);
+        $I->canSeeResponseJsonMatchesJsonPath('$._links.self.href');
 
         $this->itemUri = $I->grabHttpHeader('Location');
     }
@@ -44,12 +45,13 @@ class OrderItemControllerCest
         $I->sendGET($this->itemUri);
 
         $I->canSeeResponseCodeIs(\Codeception\Util\HttpCode::OK);
-        $I->canSeeHttpHeader('Content-Type', 'application/json');
+        $I->canSeeHttpHeader('Content-Type', 'application/hal+json');
         $I->canSeeResponseIsJson();
         $I->canSeeResponseContainsJson([
             'product' => 1,
             'quantity' => 10
         ]);
+        $I->canSeeResponseJsonMatchesJsonPath('$._links.self.href');
     }
 
     public function addOrderItemCollectionTest(ApiTester $I)
@@ -62,15 +64,16 @@ class OrderItemControllerCest
             );
         }
         $I->canSeeNumRecords(51, 'app_order_item');
+        $I->canSeeResponseJsonMatchesJsonPath('$._links.self.href');
     }
 
     public function listAllOrderItemsTest(ApiTester $I)
     {
-        $I->wantTo('get all order items');
+        $I->wantTo('list all order items');
         $I->sendGET('/api/orders/mine/' . $this->orderNumber);
 
         $I->canSeeResponseCodeIs(\Codeception\Util\HttpCode::OK);
-        $I->canSeeHttpHeader('Content-Type', 'application/json');
+        $I->canSeeHttpHeader('Content-Type', 'application/hal+json');
         $I->canSeeResponseIsJson();
         $I->canSeeResponseContainsJson([
             'items' => [
@@ -79,15 +82,16 @@ class OrderItemControllerCest
             ]
         ]);
         $I->canSeeNumRecords(51, 'app_order_item');
+        $I->canSeeResponseJsonMatchesJsonPath('$.items[0]._links.self.href');
     }
 
     public function listAllOrderItemsPaginatedTest(ApiTester $I)
     {
-        $I->wantTo('get all order items paginated');
+        $I->wantTo('list paginated all order items ');
         $I->sendGET('/api/orders/mine/' . $this->orderNumber);
 
         $I->canSeeResponseCodeIs(\Codeception\Util\HttpCode::OK);
-        $I->canSeeHttpHeader('Content-Type', 'application/json');
+        $I->canSeeHttpHeader('Content-Type', 'application/hal+json');
         $I->canSeeResponseIsJson();
         $I->canSeeResponseContainsJson([
             'items' => [
@@ -110,6 +114,7 @@ class OrderItemControllerCest
                 'product' => 11,
             ]
         ]);
+        $I->canSeeResponseJsonMatchesJsonPath('$.items[0]._links.self.href');
     }
 
     //filter stub
@@ -119,7 +124,7 @@ class OrderItemControllerCest
         $I->sendGET('/api/orders/mine/' . $this->orderNumber . '?maxstock=5');
 
         $I->canSeeResponseCodeIs(\Codeception\Util\HttpCode::OK);
-        $I->canSeeHttpHeader('Content-Type', 'application/json');
+        $I->canSeeHttpHeader('Content-Type', 'application/hal+json');
         //check for valid structure
         $I->canSeeResponseJsonMatchesJsonPath('$._links.self');
         $I->canSeeResponseJsonMatchesJsonPath('$._links.first');
@@ -138,6 +143,7 @@ class OrderItemControllerCest
                 'quantity' => 6,
             ]
         ]);
+        $I->canSeeResponseJsonMatchesJsonPath('$.items[0]._links.self.href');
     }
 
     //modify a order item quantity using PUT
@@ -149,13 +155,14 @@ class OrderItemControllerCest
         );
 
         $I->canSeeResponseCodeIs(\Codeception\Util\HttpCode::OK);
-        $I->canSeeHttpHeader('Content-Type', 'application/json');
+        $I->canSeeHttpHeader('Content-Type', 'application/hal+json');
         //should not change
         $I->canSeeResponseContainsJson(['product' => 1]);
         //should change
         $I->canSeeResponseContainsJson(['quantity' => 11]);
         //idempotency check
         $I->canSeeNumRecords(51, 'app_order_item');
+        $I->canSeeResponseJsonMatchesJsonPath('$._links.self.href');
     }
 
     //modify a order item quantity using PATCH
@@ -167,13 +174,14 @@ class OrderItemControllerCest
         );
 
         $I->canSeeResponseCodeIs(\Codeception\Util\HttpCode::OK);
-        $I->canSeeHttpHeader('Content-Type', 'application/json');
+        $I->canSeeHttpHeader('Content-Type', 'application/hal+json');
         //should not change
         $I->canSeeResponseContainsJson(['product' => 1]);
         //should change
         $I->canSeeResponseContainsJson(['quantity' => 12]);
         //idempotency check
         $I->canSeeNumRecords(51, 'app_order_item');
+        $I->canSeeResponseJsonMatchesJsonPath('$._links.self.href');
     }
 
     public function deleteOrderItemTest(ApiTester $I)

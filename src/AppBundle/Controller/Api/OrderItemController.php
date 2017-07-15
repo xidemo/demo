@@ -76,16 +76,6 @@ class OrderItemController extends ApiBaseController
             ->getRepository(OrderItem::class)
             ->findAllWithFilterQueryBuilder($filter);
 
-        $adapter = new DoctrineORMAdapter($qb);
-        $pf = new Pagerfanta($adapter);
-        $pf->setMaxPerPage(10);
-        $pf->setCurrentPage($page);
-
-        $items = [];
-        foreach ($pf->getCurrentPageResults() as $item) {
-            $items[] = $item;
-        }
-
         $route = 'get_order_item_collection';
         $routeParam = ['orderNumber' => $request->attributes->get('orderNumber')];
         $paginatedCollection = $this->get('app.pagination_factory')->createCollection($qb, $request, $route, $routeParam);

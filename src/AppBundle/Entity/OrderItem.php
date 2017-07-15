@@ -2,16 +2,28 @@
 
 namespace AppBundle\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as Serializer;
 use Symfony\Component\Validator\Constraints as Assert;
+use Hateoas\Configuration\Annotation as Hateoas;
 
 /**
- * @Serializer\ExclusionPolicy("all")
- *
  * @ORM\Table(name="app_order_item")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\OrderItemRepository")
+ *
+ * @Serializer\ExclusionPolicy("all")
+ * @Hateoas\Relation(
+ *     "self",
+ *     href=@Hateoas\Route(
+ *          "get_order_item",
+ *          parameters={
+ *              "orderNumber"= "expr(object.getOrder().getOrderNumber())",
+ *              "id" = "expr(object.getId())"
+ *          }
+ *     ),
+ *     embedded="expr(object.getOrder())",
+ *     exclusion = @Hateoas\Exclusion(excludeIf = "expr(object.getOrder() === null)")
+ * )
  */
 class OrderItem
 {

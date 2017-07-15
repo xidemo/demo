@@ -21,13 +21,18 @@ class OrderControllerCest
         $I->sendGET('/api/orders/new');
 
         $I->canSeeResponseCodeIs(\Codeception\Util\HttpCode::OK);
-        $I->canSeeHttpHeader('Content-Type', 'application/json');
+        $I->canSeeHttpHeader('Content-Type', 'application/hal+json');
         $I->canSeeResponseJsonMatchesJsonPath('$.orderNumber');
         $response = json_decode($I->grabResponse(), true);
         $this->orderNumber = $response['orderNumber'];
-        $I->canSeeResponseJsonMatchesJsonPath('$._links.orderNumber');
         $I->canSeeResponseContainsJson(['orderNumber' => $this->orderNumber]);
-        $I->canSeeResponseJsonMatchesJsonPath('$._links.order');
+        $I->canSeeResponseJsonMatchesJsonPath('$.user');
+        $I->canSeeResponseJsonMatchesJsonPath('$.items');
+        $I->canSeeResponseJsonMatchesJsonPath('$.orderNumber');
+        $I->canSeeResponseJsonMatchesJsonPath('$.placedAt');
+        $I->canSeeResponseJsonMatchesJsonPath('$.note');
+        $I->canSeeResponseJsonMatchesJsonPath('$.state');
+        $I->canSeeResponseJsonMatchesJsonPath('$._links.orderItems.href');
     }
 
     public function addOrderCollectionForUserTest(ApiTester $I)
@@ -45,8 +50,15 @@ class OrderControllerCest
         $I->sendGET('/api/orders/mine');
 
         $I->canSeeResponseCodeIs(\Codeception\Util\HttpCode::OK);
-        $I->canSeeHttpHeader('Content-Type', 'application/json');
+        $I->canSeeHttpHeader('Content-Type', 'application/hal+json');
         $I->canSeeResponseIsJson();
         $I->canSeeNumRecords(11, 'app_order');
+        $I->canSeeResponseJsonMatchesJsonPath('$[0].user');
+        $I->canSeeResponseJsonMatchesJsonPath('$[0].items');
+        $I->canSeeResponseJsonMatchesJsonPath('$[0].orderNumber');
+        $I->canSeeResponseJsonMatchesJsonPath('$[0].placedAt');
+        $I->canSeeResponseJsonMatchesJsonPath('$[0].note');
+        $I->canSeeResponseJsonMatchesJsonPath('$[0].state');
+        $I->canSeeResponseJsonMatchesJsonPath('$[0]._links.orderItems.href');
     }
 }

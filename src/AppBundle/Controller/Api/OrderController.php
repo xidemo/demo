@@ -36,9 +36,7 @@ class OrderController extends ApiBaseController
         $em->persist($order);
         $em->flush();
 
-        $orderNumber['orderNumber'] = $order->getOrderNumber();
-
-        return $this->createApiResponse($orderNumber);
+        return $this->createApiResponse($order);
     }
 
     /**
@@ -47,7 +45,6 @@ class OrderController extends ApiBaseController
      */
     public function getOrderCollectionForUserAction(Request $request)
     {
-
         $data = $this->getDoctrine()
             ->getRepository(Order::class)
             ->findBy(['user' => $this->getUser()]);
@@ -56,6 +53,4 @@ class OrderController extends ApiBaseController
 
         return $response;
     }
-
-
 }

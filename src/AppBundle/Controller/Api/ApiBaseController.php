@@ -24,7 +24,7 @@ class ApiBaseController extends Controller
         throw new ApiProblemException($apiProblem);
     }
 
-    protected function createApiResponse($data, $statusCode = 200, $contentType = 'application/json')
+    protected function createApiResponse($data, $statusCode = 200, $contentType = 'application/hal+json')
     {
         $json = $this->serialize($data);
 

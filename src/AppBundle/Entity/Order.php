@@ -5,12 +5,22 @@ namespace AppBundle\Entity;
 use JMS\Serializer\Annotation as Serializer;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Hateoas\Configuration\Annotation as Hateoas;
 
 /**
- * @Serializer\ExclusionPolicy("all")
- *
  * @ORM\Table(name="app_order")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\OrderRepository")
+ *
+ * @Serializer\ExclusionPolicy("all")
+ * @Hateoas\Relation(
+ *     "orderItems",
+ *     href=@Hateoas\Route(
+ *          "get_order_item_collection",
+ *          parameters={
+ *              "orderNumber"= "expr(object.getOrderNumber())",
+ *          }
+ *     )
+ * )
  */
 class Order implements OrderInterface
 {

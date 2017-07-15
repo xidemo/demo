@@ -29,7 +29,8 @@ class AppKernel extends Kernel
             new \Doctrine\Bundle\MigrationsBundle\DoctrineMigrationsBundle(),
             new \JMS\SerializerBundle\JMSSerializerBundle(),
             new \WhiteOctober\PagerfantaBundle\WhiteOctoberPagerfantaBundle(),
-            new Lexik\Bundle\JWTAuthenticationBundle\LexikJWTAuthenticationBundle(),
+            new \Lexik\Bundle\JWTAuthenticationBundle\LexikJWTAuthenticationBundle(),
+            new \Bazinga\Bundle\HateoasBundle\BazingaHateoasBundle(),
 //            new \FOS\RestBundle\FOSRestBundle(),
         );
 
