@@ -12,3 +12,12 @@ modules:
             browser: firefox
         - \Helper\Acceptance
         - Db  # auto loading fixtures
+    config:
+        Db:
+            dsn: 'mysql:host=127.0.0.1;dbname=symfony_test'
+            user: 'root'
+            password: 'root'
+            dump: 'tests/_data/dump.sql'
+            populate: true
+            cleanup: false
+            reconnect: true
