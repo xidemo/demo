@@ -31,6 +31,7 @@ class AppKernel extends Kernel
             new \WhiteOctober\PagerfantaBundle\WhiteOctoberPagerfantaBundle(),
             new \Lexik\Bundle\JWTAuthenticationBundle\LexikJWTAuthenticationBundle(),
             new \Bazinga\Bundle\HateoasBundle\BazingaHateoasBundle(),
+            new \Nelmio\ApiDocBundle\NelmioApiDocBundle(),
 //            new \FOS\RestBundle\FOSRestBundle(),
         );
 

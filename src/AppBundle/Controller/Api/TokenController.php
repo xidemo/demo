@@ -2,17 +2,29 @@
 
 namespace AppBundle\Controller\Api;
 
-use Application\Sonata\UserBundle\Entity\User;
+use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Exception\BadCredentialsException;
 
 class TokenController extends ApiBaseController
 {
     /**
+     * @ApiDoc(
+     *      resource=true,
+     *      section="Token",
+     *      description="Create a new JWT token for user",
+     *      https= true,
+     *      input="Application\Sonata\UserBundle\Entity\User",
+     *      output="token string",
+     *      statusCodes={
+     *          200="Returned when successful",
+     *          401="Returned when fail authentication"
+     *      }
+     * )
+     *
      * @Route("/api/token")
      * @Method("POST")
      */
@@ -33,7 +45,7 @@ class TokenController extends ApiBaseController
         if (!$isValid) {
             throw new BadCredentialsException();
         }
-        
+
         $token = $this->get('lexik_jwt_authentication.encoder')
             ->encode([
                 'username' => $user->getUsername(),

@@ -18,7 +18,7 @@ class OrderControllerCest
     public function newOrderForUserTest(ApiTester $I)
     {
         $I->wantTo('create a new order as a logged-in customer');
-        $I->sendGET('/api/orders/new');
+        $I->sendPOST('/api/orders/new');
 
         $I->canSeeResponseCodeIs(\Codeception\Util\HttpCode::OK);
         $I->canSeeHttpHeader('Content-Type', 'application/hal+json');
@@ -39,7 +39,7 @@ class OrderControllerCest
     {
         $I->wantTo('add a collection of 10 orders');
         for ($i = 2; $i <= 11; $i++) {
-            $I->sendGET('/api/orders/new');
+            $I->sendPOST('/api/orders/new');
         }
         $I->canSeeNumRecords(11, 'app_order');
     }

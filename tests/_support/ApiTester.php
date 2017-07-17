@@ -22,7 +22,7 @@ class ApiTester extends \Codeception\Actor
 
     public function createNewOrder()
     {
-        $this->sendGET('/api/orders/new');
+        $this->sendPOST('/api/orders/new');
         $response = json_decode($this->grabResponse(), true);
 
         return $response['orderNumber'];

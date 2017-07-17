@@ -4,8 +4,7 @@ namespace AppBundle\Controller\Api;
 
 use AppBundle\Entity\Order;
 use AppBundle\Form\OrderItemType;
-use Pagerfanta\Adapter\DoctrineORMAdapter;
-use Pagerfanta\Pagerfanta;
+use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -21,6 +20,31 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 class OrderItemController extends ApiBaseController
 {
     /**
+     * @ApiDoc(
+     *      resource=true,
+     *      section="Order Item",
+     *      description="Add an Order Item",
+     *      https= true,
+     *      headers={
+     *         {
+     *             "name"="Authorization",
+     *             "description"="JWT Authorization key",
+     *             "required"="true"
+     *         }
+     *      },
+     *      input="AppBundle\Entity\OrderItem",
+     *      parameters={
+     *          {"name"="product", "dataType"="integer", "required"=true, "description"="product id"},
+     *          {"name"="quantity", "dataType"="integer", "required"=true, "description"="product quantity"},
+     *      },
+     *      output="AppBundle\Entity\OrderItem",
+     *      statusCodes={
+     *          200="Returned when successful",
+     *          401="Returned when fail authentication",
+     *          400="Returned when request body is invalid"
+     *      }
+     * )
+     *
      * @Route("/api/orders/mine/{orderNumber}", name="new_order_item")
      * @Method("POST")
      */
@@ -55,6 +79,26 @@ class OrderItemController extends ApiBaseController
     }
 
     /**
+     * @ApiDoc(
+     *      resource=true,
+     *      section="Order Item",
+     *      description="Returns an Order Item",
+     *      https= true,
+     *      headers={
+     *         {
+     *             "name"="Authorization",
+     *             "description"="JWT Authorization key",
+     *             "required"="true"
+     *         }
+     *      },
+     *      output="AppBundle\Entity\OrderItem",
+     *      statusCodes={
+     *          200="Returned when successful",
+     *          401="Returned when fail authentication",
+     *          404="Returned when no order item found"
+     *      }
+     * )
+     *
      * @Route("/api/orders/mine/{orderNumber}/{id}", name="get_order_item")
      * @Method("GET")
      */
@@ -64,6 +108,31 @@ class OrderItemController extends ApiBaseController
     }
 
     /**
+     * @ApiDoc(
+     *      resource=true,
+     *      section="Order Item",
+     *      description="Returns Order Item Collection",
+     *      https= true,
+     *      headers={
+     *         {
+     *             "name"="Authorization",
+     *             "description"="JWT Authorization key",
+     *             "required"="true"
+     *         }
+     *      },
+     *      requirements={
+     *          {"name"="page", "dataType"="integer", "required"=true, "description"="current page"},
+     *      },
+     *      filters={
+     *          {"name"="maxstock", "dataType"="integer"},
+     *      },
+     *      statusCodes={
+     *          200="Returned when successful",
+     *          401="Returned when fail authentication",
+     *          404="Returned when no order item found"
+     *      }
+     * )
+     *
      * @Route("/api/orders/mine/{orderNumber}", name="get_order_item_collection")
      * @Method("GET")
      */
@@ -86,6 +155,26 @@ class OrderItemController extends ApiBaseController
     }
 
     /**
+     * @ApiDoc(
+     *      resource=true,
+     *      section="Order Item",
+     *      description="Update an Order Item",
+     *      https= true,
+     *      headers={
+     *         {
+     *             "name"="Authorization",
+     *             "description"="JWT Authorization key",
+     *             "required"="true"
+     *         }
+     *      },
+     *      output="AppBundle\Entity\OrderItem",
+     *      statusCodes={
+     *          200="Returned when successful",
+     *          401="Returned when fail authentication",
+     *          404="Returned when no order item found"
+     *      }
+     * )
+     *
      * @Route("/api/orders/mine/{orderNumber}/{id}", name="update_order_item")
      * @Method({"PUT", "PATCH"})
      */
@@ -109,6 +198,25 @@ class OrderItemController extends ApiBaseController
     }
 
     /**
+     * @ApiDoc(
+     *      resource=true,
+     *      section="Order Item",
+     *      description="Delete an Order Item",
+     *      https= true,
+     *      headers={
+     *         {
+     *             "name"="Authorization",
+     *             "description"="JWT Authorization key",
+     *             "required"="true"
+     *         }
+     *      },
+     *      statusCodes={
+     *          200="Returned when successful",
+     *          401="Returned when fail authentication",
+     *          404="Returned when no order item found"
+     *      }
+     * )
+     *
      * @Route("/api/orders/mine/{orderNumber}/{id}", name="delete_order_item")
      * @Method("DELETE")
      */

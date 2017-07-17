@@ -21,7 +21,7 @@ class OrderItemControllerCest
 
     public function newOrderItemTest(ApiTester $I)
     {
-        $I->wantTo('add order item');
+        $I->wantTo('add new order item');
         $this->orderNumber = $I->createNewOrder();
         $I->haveHttpHeader('Content-Type', 'application/hal+json');
         $I->haveHttpHeader('Accept', 'application/hal+json');
