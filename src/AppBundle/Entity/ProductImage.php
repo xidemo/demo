@@ -34,6 +34,6 @@ class ProductImage extends Image
 
     public function __toString()
     {
-        return $this->getFileName();
+        return $this->getFileName() ? $this->getFileName() : 'new' ;
     }
 }

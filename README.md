@@ -5,12 +5,16 @@ This repo is a demonstration of a modern(2017) web app based on Symfony and mode
 
 A working website can be found at: http://demo.greenxi.net 
 
+A short video of the test flow can be viewed at: https://youtu.be/_UnbUY-I1FI
+
 
 Important! 
 --------------
 
-Please note this is more than a 'boiler-plate' for bigger projects, and involve extra layers of complexity in the backend for 
-demonstration purposes. 
+Please note this is more than a 'boiler-plate' for creating bigger projects, and involve extra layers of complexity in the 
+backend for demonstration purposes - use in your own risk. 
+
+Superficial front assets and tests are also kept at minimum.  
  
  
 Project Structure 
@@ -23,8 +27,8 @@ It comes with the following designs in mind:
   hierarchy control for the same products, which are distributed in different regions and by different channels.
 
   * [**Bundles**] - Popular bundles such as fos/sonata/nelmio are used for rapid prototyping, and some others
-  (doctrineextra/fosrest) are intentionally not used for demonstration. For example, the file/image uploading, sluggify, 
-  and most api endpoints are handled manually. 
+  (doctrineextra/fosrest) are intentionally not used for demonstration. For example, the file/image uploading, helpers, 
+  security and most part of the api endpoints are handled manually. 
 
   * [**Environment Setup**] -  A separate Testing environment can be accessed in console with '-e test' flag. A separate 
   config file (config_bundles.yml) are created for third party libraries.
@@ -86,3 +90,5 @@ bin/codecept run
 
 Or run individual test suite by appending the suite flag such as 'api' or 'functional'. Details can be seen by using
  '--steps' or '--debug'
+ 
+Or https://youtu.be/_UnbUY-I1FI for people on the go :) 

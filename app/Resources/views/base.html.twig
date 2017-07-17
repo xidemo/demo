@@ -17,6 +17,17 @@
     {{ include(':common:menu_top.html.twig') }}
 {% endblock %}
 
+{#display user flash message if any#}
+{% if app.request.hasPreviousSession %}
+    {% for type, messages in app.session.flashbag.all() %}
+        {% for message in messages %}
+            <div class="alert alert-success">
+                {{ message|trans([],'SonataUserBundle') }}
+            </div>
+        {% endfor %}
+    {% endfor %}
+{% endif %}
+
 {% block page %}{% endblock %}
 
 {% block footer %}

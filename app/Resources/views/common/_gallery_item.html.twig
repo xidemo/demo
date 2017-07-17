@@ -4,7 +4,7 @@
             {% if item.images is empty %}
                 <a href="{{ path('product_show', {'slug': item.slug}) }}">
                     <img title="{{ item.name }}"
-                         src="{{ asset('images/products/default_product_'~random(15)~'.jpg') }}" width="160"
+                         src="{{ asset('uploads/default/default_product_'~random(15)~'.jpg') }}" width="160"
                          height="120"
                          alt="{{ item.name }}" border="0">
                 </a>

@@ -78,19 +78,19 @@ class MenuBuilder
         }
 
         //How to Buy
-        $menu->addChild('Buy', array('uri' => '#', 'label' => 'How to Buy'));
+        $menu->addChild('Buy', array('uri' => '#', 'label' => 'Distributor'));
         $menu['Buy']->setChildrenAttribute('class', 'dropdown-menu');
         $menu['Buy']->setLinkAttributes(array(
             'href' => 'self',
             'class' => 'dropdown-toggle',
             'data-toggle' => 'dropdown'
         ));
-        $menu['Buy']->addChild('Individual', array('uri' =>'#'));
-        $menu['Buy']->addChild('Corporate', array('uri' =>'#'));
+        $menu['Buy']->addChild('Individual', array('route' =>'sonata_user_registration_register'));
+        $menu['Buy']->addChild('Corporate', array('route' =>'sonata_admin_redirect'));
 
 
-        $menu->addChild('Media', array('uri' => '#'));
-        $menu->addChild('Contact', array('uri' => '#'));
+        $menu->addChild('Api', array('route' => 'nelmio_api_doc_index'));
+        $menu->addChild('Repo', array('uri' => 'https://github.com/xidemo/demo'));
 
         return $menu;
     }

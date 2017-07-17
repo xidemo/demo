@@ -1,12 +1,12 @@
 AppBundle\Entity\Solution:
     solution1:
-        name: Industrial
+        name: Lighting
         description: <paragraph($nb = 5)>
     solution2:
-        name: Cinema
+        name: Engineering
         description: <paragraph($nb = 5)>
     solution3:
-        name: Agriculture
+        name: Military
         description: <paragraph($nb = 5)>
     solution4:
         name: Data Center

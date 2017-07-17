@@ -2,16 +2,6 @@
 
 {% block page %}
     <div class="container">
-        {% if app.request.hasPreviousSession %}
-            {% for type, messages in app.session.flashbag.all() %}
-                {% for message in messages %}
-                    <div class="flash-{{ type }}">
-                        {{ message }}
-                    </div>
-                {% endfor %}
-            {% endfor %}
-        {% endif %}
-
         <div class="row">
             <div class="col-md-offset-3 col-md-6">
                 <div class="panel panel-default">
