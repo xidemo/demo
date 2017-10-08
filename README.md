@@ -1,7 +1,7 @@
 Xi's Symfony Demo
 ========================
 
-This repo is a demonstration of a modern(2017) web app based on Symfony and modelling a medium scale manufacturing company.
+This repo is based on Symfony 2.8 and modelling a medium scale manufacturing company.
 
 A working website can be found at: http://demo.greenxi.net 
 
